@@ -270,7 +270,7 @@
                     <div>
                         <span class="block text-gray-600 font-medium">Monthly Interest:</span>
                         <span id="monthlyInterest" class="font-extrabold text-red-900">£0.00</span>
-                    </div>
+                     </div>
                      <div>
                         <span class="block text-gray-600 font-medium">Annual Interest:</span>
                         <span id="annualInterest" class="font-extrabold text-red-900">£0.00</span>
@@ -319,29 +319,57 @@
             <p id="loanProjectionNote" class="text-sm italic text-gray-600 mt-4"></p>
         </div>
         
-        <!-- FEEDBACK FORM SECTION -->
+        <!-- FEEDBACK FORM SECTION (UPDATED) -->
         <div class="card bg-white p-6 rounded-xl mt-8">
             <h2 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center text-purple-600">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V9a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-6l-4 4z"></path></svg>
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                 Give Feedback
             </h2>
             <p class="text-sm text-gray-600 mb-4">Help us improve the calculator by reporting bugs or suggesting new features!</p>
 
             <form id="feedbackForm" onsubmit="submitFeedback(event)" class="space-y-4">
                 
-                <!-- Feedback Type Selector: name MUST match Google Form field name -->
+                <!-- Rating Scale (UPDATED UI) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">How would you rate your experience with this calculator?</label>
+                    <div class="flex justify-center space-x-2 p-3 bg-purple-50 rounded-lg">
+                        
+                        <!-- NOTE: entry.1696159737 is the required field name for the rating -->
+                        <label class="cursor-pointer">
+                            <input type="radio" name="entry.1696159737" value="1" required class="hidden" onchange="styleRating(this.name)">
+                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="1" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="entry.1696159737" value="2" required class="hidden" onchange="styleRating(this.name)">
+                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="2" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="entry.1696159737" value="3" required class="hidden" onchange="styleRating(this.name)">
+                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="3" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="entry.1696159737" value="4" required class="hidden" onchange="styleRating(this.name)">
+                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="4" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="entry.1696159737" value="5" required class="hidden" onchange="styleRating(this.name)">
+                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="5" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Feedback Type Selector: name entry.1591633300 -->
                 <div>
                     <label for="feedbackType" class="block text-sm font-medium text-gray-700 mb-2">Feedback Type</label>
                     <select id="feedbackType" name="entry.1591633300" required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 bg-white">
-                        <!-- Values are standardized to Title Case for Google Forms compatibility -->
                         <option value="General Feedback" selected>General Feedback</option>
                         <option value="Bug Report">Bug Report</option>
                         <option value="Feature Request">Feature Request</option>
                     </select>
                 </div>
 
-                <!-- Description Textarea: name MUST match Google Form field name -->
+                <!-- Description Textarea: name entry.326955045 -->
                 <div>
                     <label for="feedbackDetails" class="block text-sm font-medium text-gray-700 mb-2">Details / Description</label>
                     <textarea id="feedbackDetails" name="entry.326955045" rows="4" required
@@ -352,7 +380,7 @@
                 <!-- Submit Button and Status -->
                 <div class="flex flex-col space-y-2">
                     <button type="submit" id="submitButton"
-                            class="flex items-center justify-center px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out shadow-md hover:shadow-lg disabled:bg-purple-400">
+                            class="flex items-center justify-center px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out shadow-md hover:shadow-lg disabled:bg-purple-400 self-start">
                         <span id="buttonText">Submit Feedback</span>
                         <div id="spinner" class="spinner ml-2 hidden"></div>
                     </button>
@@ -421,7 +449,6 @@
 
     <script>
         // --- CONSTANTS ---
-        // Student Loan Plan parameters (Threshold, Rate, Term, and default SUGGESTED Interest Rate) are illustrative.
         const LOAN_PLANS = {
             'P1': { threshold: 22015.00, rate: 0.09, term: 30, name: "Plan 1", defaultRate: 6.25 }, 
             'P2': { threshold: 28470.00, rate: 0.09, term: 30, name: "Plan 2", defaultRate: 7.80 }, 
@@ -465,7 +492,14 @@
                 return `Written off after ${maxTermYears} Years`;
             }
             const years = Math.floor(totalMonths / 12);
-            const months = Math.round(totalMonths % 12); 
+            // Ensure months are displayed correctly (e.g., 11.9 months is 1 year)
+            const months = Math.max(0, Math.round(totalMonths % 12)); 
+            
+            // Handle the edge case where rounding pushes months to 12
+            if (months === 12) {
+                return `${years + 1} Year${years + 1 !== 1 ? 's' : ''}, 0 Months`;
+            }
+
             return `${years} Year${years !== 1 ? 's' : ''}, ${months} Month${months !== 1 ? 's' : ''}`;
         }
 
@@ -708,15 +742,12 @@
 
         /**
          * Safely parses a number from an input field, cleaning it of commas.
-         * Crucially, all input fields were changed from type="number" to type="text" 
-         * to allow commas and then cleaned here.
          */
         function parseInput(id) {
             const inputElement = document.getElementById(id);
             const rawValue = inputElement?.value;
 
             // 1. Clean the string: remove commas (,) and any non-digit characters except the period (.).
-            // The regex keeps digits, periods, and negative signs (if needed, though not for these inputs).
             const cleanValue = rawValue?.replace(/,/g, ''); 
 
             // 2. Attempt to parse the cleaned value
@@ -724,6 +755,29 @@
             
             // 3. Return 0 if not a valid number (NaN), or ensure it's not negative
             return isNaN(parsed) ? 0 : Math.max(0, parsed);
+        }
+
+        /**
+         * Visually updates the stars based on the selected rating.
+         */
+        function styleRating(name) {
+            const selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
+            const selectedValue = selectedRadio ? parseInt(selectedRadio.value) : 0;
+            
+            // Find the parent container and all stars within it
+            const form = document.getElementById('feedbackForm');
+            const stars = Array.from(form.querySelectorAll('.rating-star'));
+
+            stars.forEach(star => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                if (rating <= selectedValue) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-yellow-400');
+                }
+            });
         }
 
 
@@ -770,7 +824,17 @@
 
         // --- FEEDBACK SUBMISSION LOGIC ---
 
-        const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSffXyvIYSpV5Ku8MMlum5YLKSZLA1SJMmVQgc5Ho63-M3WRWg/formResponse';
+        // UPDATED FORM_URL: Using the provided document ID in the standard formResponse structure.
+        // NOTE: The ID below is the DOCUMENT ID from the user's edit link.
+        // If submissions still fail, the user must get the "Share" or "Published" link
+        // which contains the specific 44-character /e/ submission ID.
+        const FORM_ID = '1rQ43rOzrqd0iVx9Rl7_bI7sS_1rqBfLsOIA3rvB-8Rw';
+        // Using the /d/{ID}/formResponse structure which is sometimes more forgiving
+        const FORM_URL = `https://docs.google.com/forms/d/${FORM_ID}/formResponse`;
+        
+        // Correct Field Names (Entry IDs) from Google Form (Confirmed from previous working HTML)
+        const FIELD_RATING_NAME = 'entry.1696159737'; 
+        const FIELD_TYPE_NAME = 'entry.1591633300';
         const FIELD_DETAILS_NAME = 'entry.326955045'; 
 
         const submitButton = document.getElementById('submitButton');
@@ -792,6 +856,12 @@
                 statusMessage.textContent = message;
                 statusMessage.classList.add('text-green-600');
                 document.getElementById('feedbackDetails').value = '';
+                
+                // Reset the rating radio buttons and star visuals
+                const ratingRadios = document.getElementsByName(FIELD_RATING_NAME);
+                ratingRadios.forEach(radio => radio.checked = false);
+                styleRating(FIELD_RATING_NAME); // Reset star colors
+
                 setTimeout(() => statusMessage.textContent = '', 5000);
             } else if (state === 'error') {
                 statusMessage.textContent = message;
@@ -810,19 +880,31 @@
             setStatus('reset');
 
             const form = event.target;
-            const formData = new FormData(form);
             
-            const feedbackDetails = formData.get(FIELD_DETAILS_NAME); 
-            if (!feedbackDetails) {
-                setStatus('error', 'Please fill out the details field.');
-                return;
+            // Check HTML5 validity for 'required' fields
+            if (!form.checkValidity()) {
+                 setStatus('error', 'Please fill out all required fields (rating, type, and details).');
+                 return;
             }
 
+            // Manually check if a rating was selected (redundant due to 'required' but good fallback)
+            if (!document.querySelector(`input[name="${FIELD_RATING_NAME}"]:checked`)) {
+                 setStatus('error', 'Please select a star rating.');
+                 return;
+            }
+
+            const formData = new FormData(form);
             const urlSearchParams = new URLSearchParams(formData);
 
             setStatus('loading');
+            
+            // Log the payload and URL for debugging
+            console.log('Attempting to submit to URL:', FORM_URL);
+            console.log('Payload being sent (URL Encoded):', urlSearchParams.toString());
+
 
             try {
+                // Fetch request to Google Forms endpoint
                 const response = await fetch(FORM_URL, {
                     method: 'POST',
                     mode: 'no-cors', 
@@ -832,11 +914,13 @@
                     body: urlSearchParams.toString(),
                 });
 
+                // Since we use 'no-cors', we can only confirm the request was sent, not the server's success code.
+                // We assume success unless a network error prevents the fetch call entirely.
                 setStatus('success', 'Thank you! Your feedback has been submitted.');
 
             } catch (error) {
                 console.error('Feedback submission failed:', error);
-                setStatus('error', 'Submission failed. Please check your network connection.');
+                setStatus('error', 'Submission failed. Please check your network connection and ensure the FORM_URL is correct.');
             }
         }
         
@@ -863,6 +947,8 @@
              // Change all numerical inputs to type="text" to allow non-numerical characters (like commas)
              // and rely entirely on JS parsing.
              document.getElementById('annualSalary').type = 'text';
+             document.getElementById('employeeValue').type = 'text';
+             document.getElementById('employerValue').type = 'text';
              document.getElementById('currentBalance').type = 'text';
              document.getElementById('interestRate').type = 'text';
              document.getElementById('monthlyOverpayment').type = 'text';
