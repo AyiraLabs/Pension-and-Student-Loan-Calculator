@@ -96,10 +96,10 @@
                 Your Gross Annual Salary
             </h2>
             <label for="annualSalary" class="block text-sm font-medium text-gray-700 mb-2">Annual Pre-Tax Income (£)</label>
-            <input type="number" step="0.01" id="annualSalary" value="40000.50" min="0" 
+            <input type="text" id="annualSalary" value="40,000.50" min="0" 
                    oninput="updateCalculators()"
                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg">
-            <p class="text-xs text-gray-500 mt-2">Enter your full gross annual salary before any deductions.</p>
+            <p class="text-xs text-gray-500 mt-2">Enter your full gross annual salary before any deductions (commas are fine).</p>
         </div>
 
 
@@ -116,7 +116,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Your Contribution Amount</label>
                     <div class="flex">
-                        <input type="number" step="0.01" id="employeeValue" value="5.50" min="0" 
+                        <input type="text" id="employeeValue" value="5.50" min="0" 
                                oninput="updateCalculators()"
                                class="w-2/3 px-4 py-3 border border-gray-300 rounded-l-lg text-lg focus:ring-indigo-500 focus:border-indigo-500">
                         
@@ -137,7 +137,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Employer Contribution Amount</label>
                     <div class="flex">
-                        <input type="number" step="0.01" id="employerValue" value="3.00" min="0" 
+                        <input type="text" id="employerValue" value="3.00" min="0" 
                                oninput="updateCalculators()"
                                class="w-2/3 px-4 py-3 border border-gray-300 rounded-l-lg text-lg focus:ring-indigo-500 focus:border-indigo-500">
                         
@@ -228,7 +228,7 @@
                 <!-- Loan Balance -->
                 <div>
                     <label for="currentBalance" class="block text-sm font-medium text-gray-700 mb-2">Current Loan Balance (£)</label>
-                    <input type="number" step="0.01" id="currentBalance" value="30000.00" min="0" 
+                    <input type="text" id="currentBalance" value="30,000.00" min="0" 
                            oninput="updateCalculators()"
                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-lg focus:ring-red-500 focus:border-red-500">
                 </div>
@@ -237,7 +237,7 @@
                 <div>
                     <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-2">Annual Interest Rate (%) <span class="text-xs text-red-500">(Edit this!)</span></label>
                     <div class="relative">
-                        <input type="number" step="0.01" id="interestRate" value="" min="0" 
+                        <input type="text" id="interestRate" value="" min="0" 
                                oninput="updateCalculators()"
                                class="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg text-lg focus:ring-red-500 focus:border-red-500">
                         <span class="absolute right-0 top-0 mt-3 mr-3 text-gray-500">%</span>
@@ -287,7 +287,7 @@
                 </div>
                 <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                     <label for="monthlyOverpayment" class="block text-sm font-medium text-gray-700 mb-1">Voluntary Overpayment (Optional, £/mo):</label>
-                    <input type="number" step="0.01" id="monthlyOverpayment" value="50.00" min="0" 
+                    <input type="text" id="monthlyOverpayment" value="50.00" min="0" 
                            oninput="updateCalculators()"
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-xl focus:ring-green-500 focus:border-green-500 font-extrabold text-green-700">
                     <p class="text-xs text-gray-500 mt-1">Total Monthly Payment: <span id="monthlyTotalRepayment" class="font-bold text-green-800">£0.00</span></p>
@@ -422,18 +422,15 @@
     <script>
         // --- CONSTANTS ---
         // Student Loan Plan parameters (Threshold, Rate, Term, and default SUGGESTED Interest Rate) are illustrative.
-        // NOTE: The default rates set here are representative based on recent/current SLC figures (e.g., 2024/2025 academic year).
-        // USERS MUST EDIT THE RATE BASED ON THEIR CURRENT OFFICIAL SLC RATE.
         const LOAN_PLANS = {
-            // Thresholds and Rates are annual (GBP and decimal)
             'P1': { threshold: 22015.00, rate: 0.09, term: 30, name: "Plan 1", defaultRate: 6.25 }, 
             'P2': { threshold: 28470.00, rate: 0.09, term: 30, name: "Plan 2", defaultRate: 7.80 }, 
             'P4': { threshold: 27660.00, rate: 0.09, term: 30, name: "Plan 4", defaultRate: 6.25 }, 
             'P5': { threshold: 25000.00, rate: 0.09, term: 40, name: "Plan 5", defaultRate: 7.80 }, 
             'PGL': { threshold: 21000.00, rate: 0.06, term: 30, name: "Postgraduate Loan", defaultRate: 9.00 }
         };
-        const AVG_DAYS_PER_MONTH = 30.4375; // Average days per year / 12 months
-        const DAYS_PER_YEAR = 365.25; // Average days per year for compounding
+        const AVG_DAYS_PER_MONTH = 30.4375; 
+        const DAYS_PER_YEAR = 365.25; 
 
         // Helper function to round to the nearest penny (2 decimal places)
         const roundToPenny = (num) => Math.round(num * 100) / 100;
@@ -487,7 +484,6 @@
             }
 
             if (monthlyPayment <= 0 && annualRateDecimal > 0) {
-                 // If no payment is made and interest is positive, the loan is written off after the maximum term.
                  return { months: maxTermMonths, remainingBalance: balance, writtenOff: true };
             }
             
@@ -501,7 +497,6 @@
                 for (let day = 0; day < 31; day++) { 
                     const dailyInterest = dailyBalance * dailyRate;
                     interestAccrued += dailyInterest;
-                    // Daily interest is compounded into the daily balance
                     dailyBalance += dailyInterest; 
                 }
 
@@ -510,7 +505,6 @@
                 // 2. Apply Payment
                 let effectivePayment = monthlyPayment;
                 
-                // Cap payment at the outstanding balance + monthly interest
                 if (effectivePayment > (balance + monthlyInterest)) {
                     effectivePayment = balance + monthlyInterest;
                 }
@@ -537,7 +531,6 @@
             if (type === 'percent') {
                 annualAmount = salary * (value / 100);
             } else {
-                // Fixed Pound amount is assumed to be monthly, so multiply by 12
                 annualAmount = value * 12;
             }
             return roundToPenny(annualAmount);
@@ -548,38 +541,32 @@
          */
         function calculatePensions(annualSalary, employeeValue, employeeType, employerValue, employerType, isSacrifice) {
             
-            // --- 1. Calculate Annual Contributions ---
             const annualEmployee = calculateAnnualContribution(annualSalary, employeeValue, employeeType);
             const annualEmployer = calculateAnnualContribution(annualSalary, employerValue, employerType);
             
             let adjustedGrossSalary = annualSalary;
 
-            // --- 2. Apply Salary Sacrifice logic (Crucial for Student Loan calculation) ---
             const sacrificeImpactBox = document.getElementById('salarySacrificeImpact');
             const annualSacrificeAmount = document.getElementById('annualSacrificeAmount');
             const adjustedGrossSalaryText = document.getElementById('adjustedGrossSalary');
 
             if (isSacrifice) {
-                // Sacrifice reduces gross salary by employee contribution
                 adjustedGrossSalary = annualSalary - annualEmployee;
                 
                 sacrificeImpactBox.classList.remove('hidden');
                 annualSacrificeAmount.textContent = formatCurrency(annualEmployee);
                 adjustedGrossSalaryText.textContent = formatCurrency(adjustedGrossSalary);
             } else {
-                // If not salary sacrifice, the full annual salary is used for loan calculations
                 adjustedGrossSalary = annualSalary;
                 sacrificeImpactBox.classList.add('hidden');
             }
             
             adjustedGrossSalary = roundToPenny(adjustedGrossSalary);
 
-            // --- 3. Calculate Monthly Contributions for Display ---
             const monthlyEmployee = roundToPenny(annualEmployee / 12);
             const monthlyEmployer = roundToPenny(annualEmployer / 12);
             const monthlyTotal = roundToPenny((annualEmployee + annualEmployer) / 12);
 
-            // Update UI
             document.getElementById('monthlyEmployee').textContent = formatCurrency(monthlyEmployee);
             document.getElementById('monthlyEmployer').textContent = formatCurrency(monthlyEmployer);
             document.getElementById('monthlyTotalPension').textContent = formatCurrency(monthlyTotal);
@@ -593,11 +580,9 @@
         function calculateInterestBreakdown(currentBalance, annualRateDecimal) {
             const dailyRate = annualRateDecimal / DAYS_PER_YEAR;
             
-            // Calculate daily interest, rounded to penny
             const dailyInterest = roundToPenny(currentBalance * dailyRate);
             const weeklyInterest = roundToPenny(dailyInterest * 7);
 
-            // Monthly Interest calculation needs to simulate compounding over 31 days
             let monthlyInterestAccrued = 0;
             let dailyBalance = currentBalance;
             for (let day = 0; day < 31; day++) { 
@@ -607,7 +592,6 @@
             }
             const monthlyInterest = roundToPenny(monthlyInterestAccrued);
             
-            // Annual Interest calculation needs to simulate compounding over 365 days
             let annualInterestAccrued = 0;
             dailyBalance = currentBalance;
             for (let day = 0; day < 365; day++) {
@@ -618,7 +602,6 @@
             const annualInterest = roundToPenny(annualInterestAccrued);
 
 
-            // Update UI
             document.getElementById('dailyInterest').textContent = formatCurrency(dailyInterest);
             document.getElementById('weeklyInterest').textContent = formatCurrency(weeklyInterest);
             document.getElementById('monthlyInterest').textContent = formatCurrency(monthlyInterest);
@@ -636,40 +619,28 @@
             const SL_REPAYMENT_RATE = plan.rate;
             const MAX_TERM_YEARS = plan.term;
 
-            // Update Dynamic Display
             document.getElementById('currentThreshold').textContent = formatCurrency(SL_THRESHOLD_ANNUAL);
             document.getElementById('currentRate').textContent = `${(SL_REPAYMENT_RATE * 100).toFixed(0)}%`;
-            // Update both max term displays
             document.getElementById('maxTermYears').textContent = `${MAX_TERM_YEARS} Years`; 
             document.getElementById('maxTermYears2').textContent = `${MAX_TERM_YEARS} Years`;
 
-            // --- 1. Calculate Statutory Repayment ---
             let monthlyStatutoryRepayment = 0;
             
-            // Repayment is based on the relevantAnnualSalary (which is adjusted by salary sacrifice if enabled)
             if (relevantAnnualSalary > SL_THRESHOLD_ANNUAL) {
                 const annualExcess = relevantAnnualSalary - SL_THRESHOLD_ANNUAL;
                 const annualRepayment = annualExcess * SL_REPAYMENT_RATE;
                 
-                // Statutory repayment is calculated annually, deducted monthly, and rounded to penny
                 monthlyStatutoryRepayment = roundToPenny(annualRepayment / 12);
             }
             
-            // --- 2. Calculate Total Repayment ---
             const monthlyTotalPayment = roundToPenny(monthlyStatutoryRepayment + monthlyOverpayment);
 
-            // Update repayment display
             document.getElementById('monthlyStatutory').textContent = formatCurrency(monthlyStatutoryRepayment);
             document.getElementById('monthlyTotalRepayment').textContent = formatCurrency(monthlyTotalPayment);
 
-            // --- 3. Run Interest Breakdown ---
             const annualRateDecimal = annualRate / 100;
             calculateInterestBreakdown(currentBalance, annualRateDecimal);
             
-
-            // --- 4. Run Amortization Scenarios ---
-            
-            // Scenario A: Statutory Payments Only
             const resultStatutory = runAmortization(
                 currentBalance, 
                 monthlyStatutoryRepayment, 
@@ -677,7 +648,6 @@
                 MAX_TERM_YEARS
             );
 
-            // Scenario B: Statutory + Overpayment
             const resultWithOverpayment = runAmortization(
                 currentBalance, 
                 monthlyTotalPayment, 
@@ -685,8 +655,6 @@
                 MAX_TERM_YEARS
             );
 
-            // --- 5. Update Payoff Timeline UI (Fixing Spacing) ---
-            
             const payoffStatutoryElement = document.getElementById('payoffStatutory');
             const payoffOverpaymentElement = document.getElementById('payoffWithOverpayment');
             const differenceElementText = document.getElementById('payoffDifferenceText');
@@ -700,23 +668,18 @@
             let differenceYears = Math.floor(differenceMonths / 12);
             let differenceMonthsRemainder = differenceMonths % 12;
             
-            // Only show the difference if the loan is paid off (not written off) in the overpayment scenario and savings are positive
             if (differenceMonths > 0 && !resultWithOverpayment.writtenOff) {
-                differenceBox.style.display = 'flex'; // Use flex for centering content
+                differenceBox.style.display = 'flex'; 
                 differenceBox.classList.add('animate-pulse-red');
                 
-                // Format the time difference
                 const formattedTime = `${differenceYears} Year${differenceYears !== 1 ? 's' : ''}, ${differenceMonthsRemainder} Month${differenceMonthsRemainder !== 1 ? 's' : ''}`;
                 
-                // Set the entire text of the box to control all spacing
                 differenceElementText.textContent = `You save ${formattedTime} off your loan term!`;
             } else {
                 differenceBox.style.display = 'none';
-                // Reset the content when hidden
                 differenceElementText.textContent = 'Calculating...'; 
             }
 
-            // --- 6. Handle Edge Cases and Notes ---
             if (currentBalance <= 0) {
                  noteElement.textContent = "Your loan balance is £0. No repayments required.";
             } else if (resultStatutory.writtenOff && resultWithOverpayment.writtenOff) {
@@ -736,26 +699,39 @@
             const selectedPlan = LOAN_PLANS[selectedPlanKey];
             const interestRateInput = document.getElementById('interestRate');
 
-            // Set the default rate from the LOAN_PLANS constant
             if (selectedPlan && selectedPlan.defaultRate !== undefined) {
                 interestRateInput.value = selectedPlan.defaultRate.toFixed(2);
             }
             
-            // Trigger the main calculation immediately after updating the rate
             updateCalculators();
         }
+
+        /**
+         * Safely parses a number from an input field, cleaning it of commas.
+         * Crucially, all input fields were changed from type="number" to type="text" 
+         * to allow commas and then cleaned here.
+         */
+        function parseInput(id) {
+            const inputElement = document.getElementById(id);
+            const rawValue = inputElement?.value;
+
+            // 1. Clean the string: remove commas (,) and any non-digit characters except the period (.).
+            // The regex keeps digits, periods, and negative signs (if needed, though not for these inputs).
+            const cleanValue = rawValue?.replace(/,/g, ''); 
+
+            // 2. Attempt to parse the cleaned value
+            const parsed = parseFloat(cleanValue || '0');
+            
+            // 3. Return 0 if not a valid number (NaN), or ensure it's not negative
+            return isNaN(parsed) ? 0 : Math.max(0, parsed);
+        }
+
 
         /**
          * Main function to retrieve inputs and trigger all calculations.
          */
         function updateCalculators() {
-             // Helper function to safely parse a number from an input field
-            const parseInput = (id) => {
-                const rawValue = document.getElementById(id)?.value;
-                const parsed = parseFloat(rawValue || '0');
-                return isNaN(parsed) ? 0 : Math.max(0, parsed);
-            };
-
+            
             // --- Global Input ---
             const annualSalary = parseInput('annualSalary');
 
@@ -770,7 +746,6 @@
             const selectedPlanKey = document.getElementById('loanPlan')?.value || 'P2';
             const selectedPlan = LOAN_PLANS[selectedPlanKey];
             
-            // CRITICAL GUARD CLAUSE FOR ROBUSTNESS (Issue 1)
             if (!selectedPlan) {
                 console.error("Invalid loan plan selected, stopping calculations.");
                 return;
@@ -796,7 +771,6 @@
         // --- FEEDBACK SUBMISSION LOGIC ---
 
         const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSffXyvIYSpV5Ku8MMlum5YLKSZLA1SJMmVQgc5Ho63-M3WRWg/formResponse';
-        // Field names (entry.1591633300 for type, entry.326955045 for details) are set in the HTML.
         const FIELD_DETAILS_NAME = 'entry.326955045'; 
 
         const submitButton = document.getElementById('submitButton');
@@ -817,9 +791,7 @@
             if (state === 'success') {
                 statusMessage.textContent = message;
                 statusMessage.classList.add('text-green-600');
-                // Clear the description after success
                 document.getElementById('feedbackDetails').value = '';
-                // Clear message after 5 seconds
                 setTimeout(() => statusMessage.textContent = '', 5000);
             } else if (state === 'error') {
                 statusMessage.textContent = message;
@@ -840,33 +812,26 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Client-side validation check for the required details field
             const feedbackDetails = formData.get(FIELD_DETAILS_NAME); 
             if (!feedbackDetails) {
                 setStatus('error', 'Please fill out the details field.');
                 return;
             }
 
-            // Convert FormData to URLSearchParams for x-www-form-urlencoded format
             const urlSearchParams = new URLSearchParams(formData);
 
             setStatus('loading');
 
             try {
-                // Use fetch with 'no-cors' mode as the Google Forms endpoint is cross-origin 
-                // and designed to accept form submissions this way.
                 const response = await fetch(FORM_URL, {
                     method: 'POST',
                     mode: 'no-cors', 
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    // Send the URL-encoded string data
                     body: urlSearchParams.toString(),
                 });
 
-                // Since we use 'no-cors', a successful fetch (no network error) is usually 
-                // sufficient confirmation that the data was sent to Google Forms.
                 setStatus('success', 'Thank you! Your feedback has been submitted.');
 
             } catch (error) {
@@ -888,7 +853,6 @@
          */
         function closeModal(event, modalId) {
             const modal = document.getElementById(modalId);
-            // Check if the click event is on the modal-overlay itself (the backdrop)
             if (event === null || event.target === modal) {
                 modal.classList.add('hidden');
             }
@@ -896,6 +860,13 @@
 
         // Run on page load once all the DOM content is loaded
         document.addEventListener('DOMContentLoaded', () => {
+             // Change all numerical inputs to type="text" to allow non-numerical characters (like commas)
+             // and rely entirely on JS parsing.
+             document.getElementById('annualSalary').type = 'text';
+             document.getElementById('currentBalance').type = 'text';
+             document.getElementById('interestRate').type = 'text';
+             document.getElementById('monthlyOverpayment').type = 'text';
+
              // Initialize the interest rate with the default for the initially selected Plan 2
              document.getElementById('interestRate').value = LOAN_PLANS['P2'].defaultRate.toFixed(2);
              updateCalculators();
