@@ -310,9 +310,9 @@
                     <span id="payoffWithOverpayment" class="font-bold text-lg text-green-800">Calculating...</span>
                 </div>
 
-                <!-- Difference - FIX APPLIED HERE: Added explicit spaces around the span -->
+                <!-- Payoff Difference Box - MODIFIED HTML FOR SPACING FIX -->
                 <div id="payoffDifferenceBox" class="p-4 rounded-lg text-center font-extrabold text-red-800 text-xl border-2 border-red-300 animate-pulse-red">
-                    You save <span id="payoffDifference"> 0 Years, 0 Months</span> off your loan term!
+                    <span id="payoffDifferenceText">Calculating...</span>
                 </div>
             </div>
             
@@ -685,11 +685,11 @@
                 MAX_TERM_YEARS
             );
 
-            // --- 5. Update Payoff Timeline UI ---
+            // --- 5. Update Payoff Timeline UI (Fixing Spacing) ---
             
             const payoffStatutoryElement = document.getElementById('payoffStatutory');
             const payoffOverpaymentElement = document.getElementById('payoffWithOverpayment');
-            const differenceElement = document.getElementById('payoffDifference');
+            const differenceElementText = document.getElementById('payoffDifferenceText');
             const noteElement = document.getElementById('loanProjectionNote');
             const differenceBox = document.getElementById('payoffDifferenceBox');
 
@@ -704,9 +704,16 @@
             if (differenceMonths > 0 && !resultWithOverpayment.writtenOff) {
                 differenceBox.style.display = 'flex'; // Use flex for centering content
                 differenceBox.classList.add('animate-pulse-red');
-                differenceElement.textContent = `${differenceYears} Year${differenceYears !== 1 ? 's' : ''}, ${differenceMonthsRemainder} Month${differenceMonthsRemainder !== 1 ? 's' : ''}`;
+                
+                // Format the time difference
+                const formattedTime = `${differenceYears} Year${differenceYears !== 1 ? 's' : ''}, ${differenceMonthsRemainder} Month${differenceMonthsRemainder !== 1 ? 's' : ''}`;
+                
+                // Set the entire text of the box to control all spacing
+                differenceElementText.textContent = `You save ${formattedTime} off your loan term!`;
             } else {
                 differenceBox.style.display = 'none';
+                // Reset the content when hidden
+                differenceElementText.textContent = 'Calculating...'; 
             }
 
             // --- 6. Handle Edge Cases and Notes ---
@@ -762,6 +769,12 @@
             // --- Student Loan Inputs ---
             const selectedPlanKey = document.getElementById('loanPlan')?.value || 'P2';
             const selectedPlan = LOAN_PLANS[selectedPlanKey];
+            
+            // CRITICAL GUARD CLAUSE FOR ROBUSTNESS (Issue 1)
+            if (!selectedPlan) {
+                console.error("Invalid loan plan selected, stopping calculations.");
+                return;
+            }
 
             const currentBalance = parseInput('currentBalance');
             const annualRate = parseInput('interestRate');
