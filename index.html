@@ -31,6 +31,7 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
+        /* The CSS definition for animate-pulse-red is kept, but it is no longer applied via HTML */
         .animate-pulse-red {
             animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
@@ -704,7 +705,8 @@
             
             if (differenceMonths > 0 && !resultWithOverpayment.writtenOff) {
                 differenceBox.style.display = 'flex'; 
-                differenceBox.classList.add('animate-pulse-red');
+                // Removed the animate-pulse-red class from the DOM element via JavaScript
+                differenceBox.classList.remove('animate-pulse-red');
                 
                 const formattedTime = `${differenceYears} Year${differenceYears !== 1 ? 's' : ''}, ${differenceMonthsRemainder} Month${differenceMonthsRemainder !== 1 ? 's' : ''}`;
                 
