@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+        <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CLTTNMLWK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -20,975 +20,884 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pension Contributions & Student loan calculator (UK)</title>
-    <!-- Favicon: Money Bag Emoji -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
-    
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for aesthetic polish */
-        :root {
-            --primary-color: #4f46e5; /* Indigo-600 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #f3f4f6; }
+        .tab-button.active {
+            border-color: #4f46e5;
+            color: #4f46e5;
+            background-color: #eef2ff;
+            border-radius: 0.5rem 0.5rem 0 0;
+            transition: all 0.2s;
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fc; /* Light background */
-            min-height: 100vh;
-        }
-        .card {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        /* Allow decimals but suppress default spin buttons */
-        input[type="number"]::-webkit-inner-spin-button, 
-        input[type="number"]::-webkit-outer-spin-button { 
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        /* The CSS definition for animate-pulse-red is kept, but it is no longer applied via HTML */
-        .animate-pulse-red {
-            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse-red {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; background-color: #fecaca; } /* Red-200 */
-        }
-
-        /* Spinner for loading state */
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 24px;
+        .tab-panel.hidden { display: none; }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
             height: 24px;
-            animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 16px; width: 16px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #4f46e5; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .pill-button {
+            display: inline-flex; align-items: center; padding: 0.5rem 1.2rem;
+            border-radius: 9999px; background: #e5e7eb; color: #1f2937;
+            font-weight: 600; font-size: 0.975rem; box-shadow: 0 2px 8px 0 #0001;
+            border: none; cursor: pointer; transition: background 0.2s;
+        }
+        .pill-button:hover, .pill-button:focus {
+            background: #d1d5db; outline: none;
+        }
+        .disclaimer-modal-content {
+            max-height: 70vh; overflow-y: auto;
         }
 
-        /* Custom style for the Modal overlay */
-        .modal-overlay {
-            /* Full fixed screen overlay */
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Footer layout for update */
+        .footer-row {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            padding: 12px 0px 0 0;
+        }
+        .refs-row {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 8px 0 0 0;
+        }
+        .footer-link {
+            color: #374151;
+            text-decoration: underline;
+            margin: 4px 0;
+            font-size: 0.97rem;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: #1d4ed8;
+        }
+
+        /* SVG Star Rating Styles */
+        .rating-stars {
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+            justify-content: center;
+        }
+        .rating-stars .rating-label {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            margin: 0 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .rating-stars input[type="radio"] {
+            display: none;
+        }
+        .rating-stars svg {
+            width: 32px;
+            height: 32px;
+            color: #ccc;
+            transition: color 0.2s;
+        }
+        .rating-stars .selected svg {
+            color: #fbbf24;
+        }
+        .rating-stars svg:hover {
+            color: #fbbf24;
+        }
+        .rating-error {
+            display: none;
+            font-size: 0.9rem;
+            color: #dc2626;
+            margin-top: 0.5em;
+        }
+        .feedback-status-message {
+            text-align: left;
+            margin-top: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .feedback-status-success {
+            color: #16a34a;
+        }
+        .feedback-status-error {
+            color: #dc2626;
+        }
+        .plan-tooltip-box {
+            position: relative;
+            margin-top: 0.5em;
+            z-index: 30;
+        }
+        .plan-tooltip-card {
+            display: none;
+            background: #eef2ff;
+            border: 1px solid #4f46e5;
+            border-radius: 0.75em;
+            box-shadow: 0 4px 16px #0001;
+            padding: 1em 1.4em 1em 1.4em;
+            font-size: 1.03em;
+            color: #253;
+            min-width: 220px;
+            position: absolute;
+            left: 0;
+            top: 0.25em;
+        }
+        .plan-tooltip-card .tooltip-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: bold;
+            color: #3b3b3b;
+            margin-bottom: 0.5em;
+        }
+        .plan-tooltip-card .tooltip-icon {
+            width: 18px;
+            height: 18px;
+            color: #4f46e5;
+        }
+
+        .field-required {
+            display: block;
+            font-size: 0.97em;
+            color: #dc2626;
+            margin-top: 2px;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 text-center">
+<body class="min-h-screen flex flex-col items-center py-12 px-4">
+    <!-- Header -->
+    <header class="text-center mb-6 w-full max-w-4xl">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
             Pension Contributions & Student loan calculator (UK)
         </h1>
-        
-        <!-- NEW Disclaimer Button (Pill Shape) -->
-        <div class="text-center mb-8">
-            <button onclick="openModal('disclaimerModal')"
-                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.398 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                Important Disclaimers
-            </button>
-        </div>
+        <p class="text-xl text-gray-600 mb-2">
+            Calculate your take-home pay, pension growth, and student loan repayment projections.
+        </p>
+        <button
+            class="pill-button mt-2"
+            onclick="openModal('disclaimerModal')"
+            aria-label="Open important disclaimer"
+            tabindex="0"
+        >
+            Important Disclaimers
+        </button>
+    </header>
 
+    <!-- Main Calculator Card -->
+    <main class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-8 lg:p-12 border border-gray-100">
 
-        <!-- Shared Input Card (Annual Salary) -->
-        <div class="card bg-white p-6 rounded-xl mb-8">
-            <h2 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
-                <!-- MONEY BAG ICON -->
-                <svg class="w-6 h-6 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 0 0-8 0v4M12 15h.01M2 11h20M7 11v11h10V11"/>
-                </svg>
-                Your Gross Annual Salary
-            </h2>
-            <label for="annualSalary" class="block text-sm font-medium text-gray-700 mb-2">Annual Pre-Tax Income (£)</label>
-            <input type="text" id="annualSalary" value="40,000.50" min="0" 
-                   oninput="updateCalculators()"
-                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg">
-            <p class="text-xs text-gray-500 mt-2">Enter your full gross annual salary before any deductions (commas are fine).</p>
-        </div>
-
-
-        <!-- PENSIONS CALCULATOR SECTION -->
-        <div class="card bg-white p-6 rounded-xl mb-8">
-            <h2 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center text-indigo-600">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                Pension Contribution Calculator
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                
-                <!-- === Employee Contribution Input === -->
+        <!-- Gross Salary Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Your Gross Annual Salary</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Salary Input -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Contribution Amount</label>
-                    <div class="flex">
-                        <input type="text" id="employeeValue" value="5.50" min="0" 
-                               oninput="updateCalculators()"
-                               class="w-2/3 px-4 py-3 border border-gray-300 rounded-l-lg text-lg focus:ring-indigo-500 focus:border-indigo-500">
-                        
-                        <div class="w-1/3 flex border border-gray-300 border-l-0 rounded-r-lg bg-gray-50 text-sm font-medium divide-x divide-gray-300">
-                            <label class="flex items-center justify-center p-2 cursor-pointer has-[:checked]:bg-indigo-200 w-1/2">
-                                <input type="radio" name="employeeType" value="percent" checked onchange="updateCalculators()" class="form-radio h-4 w-4 text-indigo-600 mr-1 hidden">
-                                <span class="text-indigo-700"> % </span>
+                    <label for="annualSalary" class="block text-sm font-medium text-gray-700">Gross Annual Salary (£)</label>
+                    <input type="text" id="annualSalary" value="45000" oninput="updateCalculators()"
+                           class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 text-lg">
+                    <p class="text-xs text-gray-500 mt-1">Enter your annual salary. Calculations update live.</p>
+                </div>
+                <!-- Results Summary -->
+                <div class="bg-indigo-50 p-4 rounded-lg shadow-inner" id="summarySection">
+                    <h3 class="text-lg font-semibold text-indigo-800 mb-2">Estimated Take-Home Pay</h3>
+                    <div class="space-y-1">
+                        <p
+                            class="flex justify-between text-sm text-orange-800"
+                            id="adjustedGrossRow"
+                            style="display:none"
+                        >
+                            Adjusted Gross Salary (after Salary Sacrifice):
+                            <span id="adjustedGrossSalary" class="font-bold text-orange-700">£0.00</span>
+                        </p>
+                        <p class="flex justify-between text-sm text-gray-700">Monthly Net Pay:
+                            <span id="monthlyNetPay" class="font-bold text-indigo-600">£0.00</span>
+                        </p>
+                        <p class="flex justify-between text-sm text-gray-700">Annual Net Pay:
+                            <span id="annualNetPay" class="font-bold text-indigo-600">£0.00</span>
+                        </p>
+                        <p class="flex justify-between text-sm text-gray-700 border-t pt-1 mt-1">
+                            Total Annual Deductions:
+                            <span id="annualDeductions" class="font-medium text-red-600">£0.00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABBED SECTION CONTAINER -->
+        <section class="mt-8">
+            <!-- Tab Headers -->
+            <div role="tablist" aria-label="Financial Calculators" class="flex flex-wrap space-x-1 sm:space-x-2 border-b border-gray-300 -mb-px">
+                <button id="tab-pension" role="tab" aria-selected="true" aria-controls="pensionCalculator" tabindex="0"
+                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        data-tab-group="financial-calc">
+                    Pension Contribution Calculator
+                </button>
+                <button id="tab-loan" role="tab" aria-selected="false" aria-controls="studentLoanCalculator" tabindex="-1"
+                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        data-tab-group="financial-calc">
+                    Student Loan Repayments & Payoff Projection
+                </button>
+            </div>
+
+            <!-- Tab Panels -->
+            <!-- Pension Calculator Content -->
+            <div id="pensionCalculator" role="tabpanel" aria-labelledby="tab-pension" class="tab-panel p-4 bg-indigo-50 rounded-b-lg shadow-inner mt-4 sm:mt-0"
+                 data-tab-group="financial-calc">
+                <h3 class="text-xl font-bold text-indigo-800 mb-4">Pension Contribution Calculator</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="employeeValue" class="block text-sm font-medium text-gray-700">Your Contribution (%)</label>
+                            <input type="text" id="employeeValue" value="5" oninput="updateCalculators()"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="employerValue" class="block text-sm font-medium text-gray-700">Employer Contribution (%)</label>
+                            <input type="text" id="employerValue" value="3" oninput="updateCalculators()"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <!-- Salary Sacrifice Toggle -->
+                        <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-indigo-200">
+                            <span class="text-sm font-medium text-gray-700">Use Salary Sacrifice?</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="salarySacrificeToggle" onchange="updateCalculators()">
+                                <span class="slider"></span>
                             </label>
-                            <label class="flex items-center justify-center p-2 cursor-pointer has-[:checked]:bg-indigo-200 w-1/2">
-                                <input type="radio" name="employeeType" value="pound" onchange="updateCalculators()" class="form-radio h-4 w-4 text-indigo-600 mr-1 hidden">
-                                <span class="text-indigo-700"> £/mo </span>
-                            </label>
+                        </div>
+                        <!-- Adjusted Salary Display -->
+                        <div id="adjustedSalaryContainer" class="p-3 rounded-lg shadow-sm border border-orange-300 bg-yellow-100 hidden">
+                            <p class="flex justify-between text-sm font-medium text-orange-800">
+                                Adjusted Gross Salary: <span id="adjustedTaxableSalary" class="font-bold text-orange-700">£0.00</span>
+                            </p>
+                            <p class="text-xs text-orange-700 mt-1">
+                                Used for Tax, NI, and Student Loan calculations if Salary Sacrifice is enabled.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-indigo-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Pension Summary</h4>
+                        <div class="space-y-2 text-sm">
+                            <p class="flex justify-between">Total Monthly Contribution:
+                                <span id="monthlyTotalContribution" class="font-bold text-indigo-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between border-t pt-2">Monthly Employee Cost (Net Pay Deduction):
+                                <span id="monthlyEmployeeCost" class="font-semibold text-green-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between">Monthly Employer Contribution:
+                                <span id="monthlyEmployerContribution" class="font-semibold text-gray-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between border-t pt-2">Annual NI Saving (due to SS):
+                                <span id="annualNISaving" class="font-semibold text-green-600">£0.00</span>
+                            </p>
+                            <p class="text-xs text-gray-500 mt-3">
+                                Employee cost adjusts based on tax relief or Salary Sacrifice savings.
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- === Employer Contribution Input === -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Employer Contribution Amount</label>
-                    <div class="flex">
-                        <input type="text" id="employerValue" value="3.00" min="0" 
-                               oninput="updateCalculators()"
-                               class="w-2/3 px-4 py-3 border border-gray-300 rounded-l-lg text-lg focus:ring-indigo-500 focus:border-indigo-500">
-                        
-                        <div class="w-1/3 flex border border-gray-300 border-l-0 rounded-r-lg bg-gray-50 text-sm font-medium divide-x divide-gray-300">
-                            <label class="flex items-center justify-center p-2 cursor-pointer has-[:checked]:bg-indigo-200 w-1/2">
-                                <input type="radio" name="employerType" value="percent" checked onchange="updateCalculators()" class="form-radio h-4 w-4 text-indigo-600 mr-1 hidden">
-                                <span class="text-indigo-700"> % </span>
+            <!-- Student Loan Calculator Content -->
+            <div id="studentLoanCalculator" role="tabpanel" aria-labelledby="tab-loan" class="tab-panel hidden p-4 bg-pink-50 rounded-b-lg shadow-inner mt-4 sm:mt-0"
+                 data-tab-group="financial-calc">
+                <h3 class="text-xl font-bold text-pink-800 mb-4">Student Loan Repayments & Payoff Projection</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="ugPlanSelect">Undergraduate Loan Plan</label>
+                            <select id="ugPlanSelect" onchange="updateCalculators(); updatePlanInfo();" class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-pink-500 focus:border-pink-500 bg-white">
+                                <option value="P1">Plan 1</option>
+                                <option value="P2">Plan 2</option>
+                                <option value="P4">Plan 4</option>
+                                <option value="P5">Plan 5</option>
+                            </select>
+                            <div class="plan-tooltip-box">
+                                <button
+                                    type="button"
+                                    id="ugPlanInfoBtn"
+                                    aria-label="Show loan plan info"
+                                    onclick="togglePlanTooltipBox()"
+                                    class="bg-transparent px-2 py-1 rounded text-indigo-600"
+                                    style="margin-top: 0.3em;"
+                                >
+                                    Info
+                                </button>
+                                <div class="plan-tooltip-card" id="ugPlanTooltipCard">
+                                    <!-- Tooltip populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="currentBalance" class="block text-sm font-medium text-gray-700">Current UG Loan Balance (£)</label>
+                        </div>
+                        <input type="text" id="currentBalance" value="25000" oninput="updateCalculators()"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500">
+                        <div>
+                            <label for="interestRate" class="block text-sm font-medium text-gray-700">Current UG Interest Rate (%)</label>
+                        </div>
+                        <input type="text" id="interestRate" value="7.70" oninput="updateCalculators()"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 bg-white focus:border-pink-500 focus:ring-pink-500"
+                               data-current-plan="P1">
+                        <div>
+                            <label for="monthlyOverpayment" class="block text-sm font-medium text-gray-700">Monthly Voluntary Overpayment (£)</label>
+                        </div>
+                        <input type="text" id="monthlyOverpayment" value="0" oninput="updateCalculators()"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500">
+                        <!-- PG Loan Dropdown YES/NO and Inputs -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="pgEnabledDropdown">
+                                Also repaying a Postgraduate loan?
                             </label>
-                            <label class="flex items-center justify-center p-2 cursor-pointer has-[:checked]:bg-indigo-200 w-1/2">
-                                <input type="radio" name="employerType" value="pound" onchange="updateCalculators()" class="form-radio h-4 w-4 text-indigo-600 mr-1 hidden">
-                                <span class="text-indigo-700"> £/mo </span>
-                            </label>
+                            <select id="pgEnabledDropdown" onchange="updatePGFields()" class="block w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-pink-500 focus:border-pink-500 bg-white">
+                                <option value="no" selected>No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div id="pgFieldsContainer" style="display:none;">
+                            <div>
+                                <label for="pgBalance" class="block text-sm font-medium text-gray-700">PG Loan Balance (£)</label>
+                            </div>
+                            <input type="text" id="pgBalance" value="10000" oninput="updateCalculators()"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500 bg-white">
+                            <div>
+                                <label for="pgInterest" class="block text-sm font-medium text-gray-700">PG Interest Rate (%)</label>
+                            </div>
+                            <input type="text" id="pgInterest" value="7.70" oninput="updateCalculators()"
+                                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500 bg-white">
+                        </div>
+                    </div>
+                    <!-- Results -->
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-pink-200">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Loan Projections</h4>
+                        <div class="space-y-3 text-sm">
+                            <p class="flex justify-between">Estimated Monthly UG Repayment:
+                                <span id="monthlyUGPayment" class="font-bold text-pink-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between">Estimated Monthly PG Repayment:
+                                <span id="monthlyPGPayment" class="font-bold text-pink-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between">Estimated Monthly Total Repayment:
+                                <span id="monthlyTotalPayment" class="font-bold text-pink-600">£0.00</span>
+                            </p>
+                            <p class="flex justify-between border-t pt-2 font-semibold text-gray-800">Loan – Mandatory Payments Only</p>
+                            <p class="flex justify-between pl-4">Payoff Years: <span id="payoffYearsMandatory" class="font-medium text-gray-700">N/A</span></p>
+                            <p class="flex justify-between pl-4">Total Interest Paid: <span id="totalInterestMandatory" class="font-medium text-gray-700">£0.00</span></p>
+                            <p class="flex justify-between border-t pt-2 font-semibold text-gray-800">Loan – Mandatory + Voluntary Payments</p>
+                            <p class="flex justify-between pl-4">Payoff Years: <span id="payoffYearsCombined" class="font-medium text-gray-700">N/A</span></p>
+                            <p class="flex justify-between pl-4">Total Interest Paid: <span id="totalInterestCombined" class="font-medium text-gray-700">£0.00</span></p>
+                            <div class="mt-3 border-t pt-2 text-xs text-gray-500">
+                                PG loan repayment is always in addition to UG loan, if applicable.<br>
+                                Loan write-off date: after the plan’s fixed term, if not paid off sooner.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Salary Sacrifice Toggle -->
-            <div class="flex items-center justify-between p-3 bg-indigo-50 rounded-lg mb-6 border border-indigo-200">
-                <div class="flex items-center">
-                    <input id="salarySacrifice" type="checkbox" onchange="updateCalculators()" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                    <label for="salarySacrifice" class="ml-2 block text-sm font-bold text-indigo-800">
-                        Enable Salary Sacrifice
-                    </label>
-                </div>
-                <div class="text-xs text-indigo-700 max-w-xs text-right">
-                    (Your contribution is taken pre-tax, **reducing the relevant income** for student loan deductions.)
-                </div>
+        <!-- Footer: Feedback row, disclaimer, references -->
+        <footer class="mt-12 pt-8 border-t border-gray-200">
+            <div class="footer-row">
+                <button onclick="openModal('feedbackModal')"
+                        class="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Give Feedback</span>
+                </button>
             </div>
-
-
-            <!-- Pension Results -->
-            <div class="mt-6 bg-indigo-50 p-4 rounded-lg">
-                <div id="salarySacrificeImpact" class="mb-4 p-3 bg-indigo-100 rounded-lg hidden">
-                    <div class="flex justify-between items-center pb-2 border-b border-indigo-300">
-                        <span class="text-indigo-700 font-bold">Annual Employee Contribution:</span>
-                        <span id="annualSacrificeAmount" class="font-extrabold text-lg text-indigo-900">£0.00</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-2">
-                        <span class="text-indigo-700 font-bold">Adjusted Gross Salary (for Student Loans):</span>
-                        <span id="adjustedGrossSalary" class="font-extrabold text-lg text-indigo-900">£0.00</span>
-                    </div>
-                </div>
-
-                <p class="text-sm font-semibold text-indigo-700 mb-2">Total Contributions:</p>
-                <div class="flex justify-between items-center py-2 border-b border-indigo-200">
-                    <span class="text-gray-600">Your Monthly Contribution:</span>
-                    <span id="monthlyEmployee" class="font-bold text-lg text-indigo-800">£0.00</span>
-                </div>
-                <div class="flex justify-between items-center py-2 border-b border-indigo-200">
-                    <span class="text-gray-600">Employer's Monthly Contribution:</span>
-                    <span id="monthlyEmployer" class="font-bold text-lg text-indigo-800">£0.00</span>
-                </div>
-                <div class="flex justify-between items-center pt-2">
-                    <span class="text-gray-900 font-bold">Total Monthly Pension Payment:</span>
-                    <span id="monthlyTotalPension" class="font-extrabold text-xl text-indigo-900">£0.00</span>
-                </div>
+            <div class="footer-row">
+                <p class="text-sm text-gray-500 text-center w-full">
+                    Data provided is an estimate. Consult a financial advisor for personalized advice.
+                </p>
             </div>
-            
-            <p class="text-xs text-gray-500 mt-4">
-                *All amounts are calculated and rounded to the nearest penny for accuracy.
-            </p>
+            <div class="refs-row">
+                <a href="https://www.gov.uk/government/publications/student-loans-a-guide-to-terms-and-conditions/student-loans-a-guide-to-terms-and-conditions-2025-to-2026" class="footer-link" target="_blank" rel="noopener">
+                    View latest SLC loan plan thresholds and interest rates (2025/26)
+                </a>
+                <a href="https://www.gov.uk/income-tax-rates" class="footer-link" target="_blank" rel="noopener">
+                    View latest GOV.UK tax bands and rates
+                </a>
+                <a href="https://www.gov.uk/national-insurance-rates-letters" class="footer-link" target="_blank" rel="noopener">
+                    View latest National Insurance rates
+                </a>
+            </div>
+        </footer>
+
+    </main>
+    <!-- Modals -->
+    <!-- Disclaimer Modal -->
+    <div id="disclaimerModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 transition-opacity" onclick="closeModal(event, 'disclaimerModal')">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 m-4 disclaimer-modal-content text-sm text-gray-700 relative" role="dialog" aria-modal="true" aria-labelledby="disclaimerModalTitle" onclick="event.stopPropagation()">
+            <h3 id="disclaimerModalTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Important Disclaimers</h3>
+            <div class="mb-6 space-y-3">
+                <p>
+                    <strong>This calculator provides approximate estimates only.</strong> UK tax bands, NI, and student loan rates may change without notice. Always consult the <a href="https://www.gov.uk/repaying-your-student-loan" class="underline text-blue-600" target="_blank" rel="noopener">Student Loans Company (SLC)</a> and <a href="https://www.gov.uk/government/publications/student-loans-a-guide-to-terms-and-conditions/student-loans-a-guide-to-terms-and-conditions-2025-to-2026" target="_blank" class="underline text-blue-600">GOV.UK</a> for latest information before making decisions.
+                </p>
+                <p>
+                    All calculations are illustrative and do not constitute financial advice, a lending offer, or a definitive tax assessment. For advice tailored to your situation, consult a qualified UK financial advisor or tax specialist.
+                </p>
+                <p>
+                    <strong>Student loan repayments:</strong> SLC/HMRC officially calculate deductions based on your "NICable pay" (pay subject to Class 1 National Insurance). This includes reductions for salary sacrifice schemes (such as pension sacrifice), so your student loan repayments may decrease if you participate in these schemes.
+                </p>
+                <ul class="list-disc ml-5">
+                    <li>Pension and national insurance savings reflect 2025/26 rates and bands and may differ from your payroll's final figures.</li>
+                    <li>If you have multiple loans (UG + PG), repayments are added and calculated per current HMRC/SLC rules.</li>
+                    <li>Interest rates may adjust annually; confirm with SLC for your official rate.</li>
+                    <li>Results do not factor in other deductions (e.g. childcare, repayments for overpayments, etc.).</li>
+                </ul>
+                <p>
+                    <em>By using this tool, you acknowledge these terms. The developers disclaim any liability for financial decisions or outcomes based on the results shown.</em>
+                </p>
+            </div>
+            <button onclick="closeModal(null, 'disclaimerModal')" class="block mx-auto mt-2 px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Close</button>
         </div>
-
-
-        <!-- STUDENT LOAN CALCULATOR SECTION -->
-        <div class="card bg-white p-6 rounded-xl mb-8">
-            <h2 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center text-indigo-600">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                Student Loan Repayment & Payoff Projection
-            </h2>
-            
-            <!-- Loan Plan Selector, Balance & Interest Inputs -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <!-- Loan Plan Selector -->
+    </div>
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 transition-opacity" onclick="closeModal(event, 'feedbackModal')">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 m-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="event.stopPropagation()">
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Send us your feedback!</h3>
+            <form id="googleForm" autocomplete="off" class="space-y-4" onsubmit="return false">
                 <div>
-                    <label for="loanPlan" class="block text-sm font-medium text-gray-700 mb-2">Select Loan Plan</label>
-                    <select id="loanPlan" onchange="handleLoanPlanChange(event)"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-lg focus:ring-red-500 focus:border-red-500 bg-white">
-                        <option value="P2">Plan 2 (England/Wales Post-2012)</option>
-                        <option value="P1">Plan 1 (England/Wales Pre-2012)</option>
-                        <option value="P4">Plan 4 (Scotland)</option>
-                        <option value="P5">Plan 5 (England/Wales Post-2023)</option>
-                        <option value="PGL">Postgraduate Loan (PGL)</option>
-                    </select>
-                </div>
-                
-                <!-- Loan Balance -->
-                <div>
-                    <label for="currentBalance" class="block text-sm font-medium text-gray-700 mb-2">Current Loan Balance (£)</label>
-                    <input type="text" id="currentBalance" value="30,000.00" min="0" 
-                           oninput="updateCalculators()"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg text-lg focus:ring-red-500 focus:border-red-500">
-                </div>
-                
-                <!-- Interest Rate -->
-                <div>
-                    <label for="interestRate" class="block text-sm font-medium text-gray-700 mb-2">Annual Interest Rate (%) <span class="text-xs text-red-500">(Edit this!)</span></label>
-                    <div class="relative">
-                        <input type="text" id="interestRate" value="" min="0" 
-                               oninput="updateCalculators()"
-                               class="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg text-lg focus:ring-red-500 focus:border-red-500">
-                        <span class="absolute right-0 top-0 mt-3 mr-3 text-gray-500">%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dynamic Threshold Display -->
-            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg" role="alert">
-                <p class="font-bold text-sm">Loan Parameters (Illustrative, based on recent/current figures):</p>
-                <div class="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-sm">
-                    <p>Annual Repayment Threshold: <span id="currentThreshold" class="font-semibold">£28,470.00</span></p>
-                    <p>Repayment Rate: <span id="currentRate" class="font-semibold">9%</span></p>
-                    <p>Max Loan Term: <span id="maxTermYears">30 Years</span></p>
-                </div>
-            </div>
-            
-            <!-- Interest Breakdown -->
-            <div class="bg-red-50 p-4 rounded-lg mb-6">
-                <h3 class="text-md font-bold text-red-700 mb-2">Interest Breakdown (Daily Compounding)</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                    <div>
-                        <span class="block text-gray-600 font-medium">Daily Interest:</span>
-                        <span id="dailyInterest" class="font-extrabold text-red-900">£0.00</span>
-                    </div>
-                    <div>
-                        <span class="block text-gray-600 font-medium">Weekly Interest:</span>
-                        <span id="weeklyInterest" class="font-extrabold text-red-900">£0.00</span>
-                    </div>
-                    <div>
-                        <span class="block text-gray-600 font-medium">Monthly Interest:</span>
-                        <span id="monthlyInterest" class="font-extrabold text-red-900">£0.00</span>
-                     </div>
-                     <div>
-                        <span class="block text-gray-600 font-medium">Annual Interest:</span>
-                        <span id="annualInterest" class="font-extrabold text-red-900">£0.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Repayment Amounts -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Mandatory Repayment (over threshold):</label>
-                    <span id="monthlyStatutory" class="font-extrabold text-2xl text-red-700">£0.00</span>
-                    <p class="text-xs text-gray-500 mt-1">(Deducted via PAYE based on Adjusted Gross Salary)</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <label for="monthlyOverpayment" class="block text-sm font-medium text-gray-700 mb-1">Voluntary Overpayment (Optional, £/mo):</label>
-                    <input type="text" id="monthlyOverpayment" value="50.00" min="0" 
-                           oninput="updateCalculators()"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg text-xl focus:ring-green-500 focus:border-green-500 font-extrabold text-green-700">
-                    <p class="text-xs text-gray-500 mt-1">Total Monthly Payment: <span id="monthlyTotalRepayment" class="font-bold text-green-800">£0.00</span></p>
-                </div>
-            </div>
-
-            <!-- Payoff Projection Results -->
-            <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3 border-t pt-4">Loan Payoff Timeline (Max Term: <span id="maxTermYears2">30 Years</span>)</h3>
-            <div class="space-y-4">
-                
-                <!-- Scenario A: Statutory Only -->
-                <div class="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
-                    <span class="text-gray-700 font-semibold">1. Statutory Payments Only:</span>
-                    <span id="payoffStatutory" class="font-bold text-lg text-gray-900">Calculating...</span>
-                </div>
-                
-                <!-- Scenario B: Statutory + Overpayment -->
-                <div class="bg-green-100 p-4 rounded-lg flex justify-between items-center">
-                    <span class="text-green-700 font-semibold">2. With Voluntary Overpayment:</span>
-                    <span id="payoffWithOverpayment" class="font-bold text-lg text-green-800">Calculating...</span>
-                </div>
-
-                <!-- Payoff Difference Box - MODIFIED HTML FOR SPACING FIX -->
-                <div id="payoffDifferenceBox" class="p-4 rounded-lg text-center font-extrabold text-red-800 text-xl border-2 border-red-300">
-                    <span id="payoffDifferenceText">Calculating...</span>
-                </div>
-            </div>
-            
-            <p id="loanProjectionNote" class="text-sm italic text-gray-600 mt-4"></p>
-        </div>
-        
-        <!-- FEEDBACK FORM SECTION (UPDATED) -->
-        <div class="card bg-white p-6 rounded-xl mt-8">
-            <h2 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center text-purple-600">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                Give Feedback
-            </h2>
-            <p class="text-sm text-gray-600 mb-4">Help us improve the calculator by reporting bugs or suggesting new features!</p>
-
-            <form id="feedbackForm" onsubmit="submitFeedback(event)" class="space-y-4">
-                
-                <!-- Rating Scale (UPDATED UI) -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">How would you rate your experience with this calculator?</label>
-                    <div class="flex justify-center space-x-2 p-3 bg-purple-50 rounded-lg">
-                        
-                        <!-- NOTE: entry.1696159737 is the required field name for the rating -->
-                        <label class="cursor-pointer">
-                            <input type="radio" name="entry.1696159737" value="1" class="hidden" onchange="styleRating(this.name)">
-                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="1" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">How satisfied are you with this calculator?</label>
+                    <span class="field-required">required</span>
+                    <div class="rating-stars" role="radiogroup" aria-label="Rating from 1 to 5 stars">
+                        <label class="rating-label" for="star1">
+                            <input type="radio" name="entry.1696159737" id="star1" value="1" aria-label="1 Star"/>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l6.18 3.86-1.64-7.03L21.38 9.5l-7.19-.61L12 2.5 9.81 8.89l-7.19.61 5.84 4.63-1.64 7.03z"/></svg>
                         </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="entry.1696159737" value="2" class="hidden" onchange="styleRating(this.name)">
-                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="2" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        <label class="rating-label" for="star2">
+                            <input type="radio" name="entry.1696159737" id="star2" value="2" aria-label="2 Stars"/>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l6.18 3.86-1.64-7.03L21.38 9.5l-7.19-.61L12 2.5 9.81 8.89l-7.19.61 5.84 4.63-1.64 7.03z"/></svg>
                         </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="entry.1696159737" value="3" class="hidden" onchange="styleRating(this.name)">
-                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="3" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        <label class="rating-label" for="star3">
+                            <input type="radio" name="entry.1696159737" id="star3" value="3" aria-label="3 Stars"/>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l6.18 3.86-1.64-7.03L21.38 9.5l-7.19-.61L12 2.5 9.81 8.89l-7.19.61 5.84 4.63-1.64 7.03z"/></svg>
                         </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="entry.1696159737" value="4" class="hidden" onchange="styleRating(this.name)">
-                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="4" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        <label class="rating-label" for="star4">
+                            <input type="radio" name="entry.1696159737" id="star4" value="4" aria-label="4 Stars"/>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l6.18 3.86-1.64-7.03L21.38 9.5l-7.19-.61L12 2.5 9.81 8.89l-7.19.61 5.84 4.63-1.64 7.03z"/></svg>
                         </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="entry.1696159737" value="5" class="hidden" onchange="styleRating(this.name)">
-                            <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition duration-150 rating-star" data-rating="5" fill="currentColor" viewBox="0 0 640 640"><path d="M320.1 32C329.1 32 337.4 37.1 341.5 45.1L415 189.3L574.9 214.7C583.8 216.1 591.2 222.4 594 231C596.8 239.6 594.5 249 588.2 255.4L473.7 369.9L499 529.8C500.4 538.7 496.7 547.7 489.4 553C482.1 558.3 472.4 559.1 464.4 555L320.1 481.6L175.8 555C167.8 559.1 158.1 558.3 150.8 553C143.5 547.7 139.8 538.8 141.2 529.8L166.4 369.9L52 255.4C45.6 249 43.4 239.6 46.2 231C49 222.4 56.3 216.1 65.3 214.7L225.2 189.3L298.8 45.1C302.9 37.1 311.2 32 320.2 32zM320.1 108.8L262.3 222C258.8 228.8 252.3 233.6 244.7 234.8L119.2 254.8L209 344.7C214.4 350.1 216.9 357.8 215.7 365.4L195.9 490.9L309.2 433.3C316 429.8 324.1 429.8 331 433.3L444.3 490.9L424.5 365.4C423.3 357.8 425.8 350.1 431.2 344.7L521 254.8L395.5 234.8C387.9 233.6 381.4 228.8 377.9 222L320.1 108.8z"/></svg>
+                        <label class="rating-label" for="star5">
+                            <input type="radio" name="entry.1696159737" id="star5" value="5" aria-label="5 Stars"/>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l6.18 3.86-1.64-7.03L21.38 9.5l-7.19-.61L12 2.5 9.81 8.89l-7.19.61 5.84 4.63-1.64 7.03z"/></svg>
                         </label>
                     </div>
-                    <div id="ratingError" class="text-xs text-red-600 mt-2" style="display:none;"></div>
+                    <div class="rating-error" id="ratingError"></div>
                 </div>
-
-                <!-- Feedback Type Selector: name entry.1591633300 -->
                 <div>
-                    <label for="feedbackType" class="block text-sm font-medium text-gray-700 mb-2">Feedback Type</label>
-                    <select id="feedbackType" name="entry.1591633300" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 bg-white">
-                        <option value="General Feedback" selected>General Feedback</option>
+                    <label for="feedbackType" class="block text-sm font-medium text-gray-700">Feedback Type</label>
+                    <span class="field-required">required</span>
+                    <select id="feedbackType" name="entry.1591633300" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <option value="" disabled selected>Select feedback category...</option>
+                        <option value="General Feedback">General Feedback</option>
                         <option value="Bug Report">Bug Report</option>
                         <option value="Feature Request">Feature Request</option>
                     </select>
                 </div>
-
-                <!-- Description Textarea: name entry.326955045 -->
                 <div>
-                    <label for="feedbackDetails" class="block text-sm font-medium text-gray-700 mb-2">Details / Description</label>
-                    <textarea id="feedbackDetails" name="entry.326955045" rows="4" required
-                              placeholder="Describe the issue, feature, or general comments..."
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"></textarea>
+                    <label for="feedbackComments" class="block text-sm font-medium text-gray-700">Comments / Suggestions</label>
+                    <span class="field-required">required</span>
+                    <textarea id="feedbackComments" name="entry.326955045" rows="4" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tell us what you think or suggest improvements..."></textarea>
                 </div>
-
-                <!-- Submit Button and Status -->
-                <div class="flex flex-col space-y-2">
-                    <button type="submit" id="submitButton"
-                            class="flex items-center justify-center px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out shadow-md hover:shadow-lg disabled:bg-purple-400 self-start">
-                        <span id="buttonText">Submit Feedback</span>
-                        <div id="spinner" class="spinner ml-2 hidden"></div>
-                    </button>
-                    <div id="statusMessage" class="text-sm font-semibold"></div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="handleFeedbackCancel()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Cancel</button>
+                    <button id="submitFeedbackBtn" type="button" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Submit Feedback</button>
                 </div>
+                <div id="feedbackStatus" class="feedback-status-message"></div>
             </form>
         </div>
-        <!-- END FEEDBACK FORM SECTION -->
-
-
-        <div class="text-center mt-10 text-sm text-gray-500">
-            <p>Calculations are illustrative and use daily compounding interest based on the current balance, assuming constant salary/interest rates.</p>
-        </div>
-
     </div>
-    
-    <!-- --- DISCLAIMER MODAL --- -->
-    <div id="disclaimerModal" class="modal-overlay hidden" onclick="closeModal(event, 'disclaimerModal')">
-        <!-- Modal Content -->
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 md:mx-auto p-6 relative" onclick="event.stopPropagation()">
-            
-            <!-- Header -->
-            <div class="flex justify-between items-center pb-3 border-b border-gray-200 mb-4">
-                <h2 class="text-2xl font-extrabold text-red-600 flex items-center">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.398 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                    Important Disclaimers
-                </h2>
-                <!-- Close Button (X icon) -->
-                <button onclick="closeModal(null, 'disclaimerModal')" class="text-gray-400 hover:text-gray-600 transition duration-150 p-1 rounded-full">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-
-            <!-- Content (Moved from the old <details> block) -->
-            <div class="text-sm text-gray-700 space-y-3 max-h-96 overflow-y-auto">
-                <ul class="list-disc list-inside space-y-3 pl-4">
-                    <li class="mb-2">
-                        <span class="font-extrabold text-red-600">Illustrative Only:</span> 
-                        This calculator provides estimates based on current inputs and simplified financial models. It is <span class="font-extrabold">not financial advice.</span>
-                    </li>
-                    <li class="mb-2">
-                        <span class="font-extrabold text-indigo-600">Rates and Thresholds:</span> 
-                        All interest rates and repayment thresholds are illustrative defaults based on recent or historical figures. Actual figures are set by the Student Loans Company (SLC) and subject to change by the UK government annually. <span class="font-semibold italic">Always verify the latest official rates.</span>
-                    </li>
-                    <li class="mb-2">
-                        <span class="font-extrabold">Accuracy:</span> 
-                        Calculations assume constant salary, interest rates, and loan terms. They do not account for future inflation, tax changes, or specific individual circumstances.
-                    </li>
-                    <li class="mb-2">
-                        <span class="font-extrabold">Security & Privacy:</span> 
-                        All calculations are performed entirely in your browser. No personal data or input is stored or transmitted.
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Footer / Close Button -->
-            <div class="pt-4 mt-4 border-t border-gray-200 flex justify-end">
-                <button onclick="closeModal(null, 'disclaimerModal')" 
-                        class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition duration-150">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-    <!-- --- END DISCLAIMER MODAL --- -->
 
     <script>
-        // --- CONSTANTS ---
+        // --- Loan Plans with Threshold and Tooltip ---
         const LOAN_PLANS = {
-            'P1': { threshold: 22015.00, rate: 0.09, term: 30, name: "Plan 1", defaultRate: 6.25 }, 
-            'P2': { threshold: 28470.00, rate: 0.09, term: 30, name: "Plan 2", defaultRate: 7.80 }, 
-            'P4': { threshold: 27660.00, rate: 0.09, term: 30, name: "Plan 4", defaultRate: 6.25 }, 
-            'P5': { threshold: 25000.00, rate: 0.09, term: 40, name: "Plan 5", defaultRate: 7.80 }, 
-            'PGL': { threshold: 21000.00, rate: 0.06, term: 30, name: "Postgraduate Loan", defaultRate: 9.00 }
+            'P1': {
+                name: 'Plan 1',
+                threshold: 24990,
+                rate: 0.09,
+                defaultRate: 7.70,
+                writeOff: 25,
+                tooltip: `
+                    <div class="tooltip-header">
+                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
+                        Plan 1
+                    </div>
+                    <div><strong>Repayment threshold:</strong> £24,990</div>
+                    <div><strong>Write-off:</strong> Cancelled after 25 years from the April you were first due to start repaying.</div>
+                `
+            },
+            'P2': {
+                name: 'Plan 2',
+                threshold: 28470,
+                rate: 0.09,
+                defaultRate: 7.70,
+                writeOff: 30,
+                tooltip: `
+                    <div class="tooltip-header">
+                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
+                        Plan 2
+                    </div>
+                    <div><strong>Repayment threshold:</strong> £28,470</div>
+                    <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>
+                `
+            },
+            'P4': {
+                name: 'Plan 4',
+                threshold: 31935,
+                rate: 0.09,
+                defaultRate: 7.70,
+                writeOff: 30,
+                tooltip: `
+                    <div class="tooltip-header">
+                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
+                        Plan 4
+                    </div>
+                    <div><strong>Repayment threshold:</strong> £31,935</div>
+                    <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>
+                `
+            },
+            'P5': {
+                name: 'Plan 5',
+                threshold: 25000,
+                rate: 0.09,
+                defaultRate: 7.70,
+                writeOff: 40,
+                tooltip: `
+                    <div class="tooltip-header">
+                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
+                        Plan 5
+                    </div>
+                    <div><strong>Repayment threshold:</strong> £25,000</div>
+                    <div><strong>Write-off:</strong> Cancelled after 40 years from the April you were first due to start repaying.</div>
+                `
+            }
         };
-        const AVG_DAYS_PER_MONTH = 30.4375; 
-        const DAYS_PER_YEAR = 365.25; 
+        const PG_PLAN = { name: 'Postgraduate Loan', threshold: 21000, rate: 0.06, defaultRate: 7.70, writeOff: 30 };
 
-        // Helper function to round to the nearest penny (2 decimal places)
-        const roundToPenny = (num) => Math.round(num * 100) / 100;
-
-        /**
-         * Finds the selected radio button value for a given name.
-         */
-        function getSelectedRadioValue(name) {
-            const radios = document.getElementsByName(name);
-            for (const radio of radios) {
-                if (radio.checked) {
-                    return radio.value;
-                }
-            }
-            return 'percent'; 
-        }
-
-        /**
-         * Formats a number as GBP currency string, ensuring two decimal places (pence).
-         */
-        function formatCurrency(amount) {
-            return `£${Math.max(0, amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-        }
-
-        /**
-         * Converts months into a "Y Years, M Months" string.
-         */
-        function formatTime(totalMonths, maxTermYears) {
-            const maxTermMonths = maxTermYears * 12;
-
-            if (totalMonths >= maxTermMonths) {
-                return `Written off after ${maxTermYears} Years`;
-            }
-            const years = Math.floor(totalMonths / 12);
-            // Ensure months are displayed correctly (e.g., 11.9 months is 1 year)
-            const months = Math.max(0, Math.round(totalMonths % 12)); 
-            
-            // Handle the edge case where rounding pushes months to 12
-            if (months === 12) {
-                return `${years + 1} Year${years + 1 !== 1 ? 's' : ''}, 0 Months`;
-            }
-
-            return `${years} Year${years !== 1 ? 's' : ''}, ${months} Month${months !== 1 ? 's' : ''}`;
-        }
-
-        /**
-         * Runs a monthly amortization simulation using daily compounding, accurately modeling SLC payments.
-         */
-        function runAmortization(startBalance, monthlyPayment, annualRateDecimal, maxTermYears) {
-            let balance = roundToPenny(startBalance);
-            let months = 0;
-            const maxTermMonths = maxTermYears * 12;
-            const dailyRate = annualRateDecimal / DAYS_PER_YEAR; 
-            const EPSILON = 0.01; 
-
-            if (startBalance <= 0) {
-                return { months: 0, remainingBalance: 0, writtenOff: false };
-            }
-
-            if (monthlyPayment <= 0 && annualRateDecimal > 0) {
-                 return { months: maxTermMonths, remainingBalance: balance, writtenOff: true };
-            }
-            
-            while (balance > EPSILON && months < maxTermMonths) {
-                
-                // 1. Calculate Interest Accrued (Daily Compounding for an average month)
-                let interestAccrued = 0;
-                let dailyBalance = balance;
-                
-                // Use a fixed number of days for simulation stability (31 days)
-                for (let day = 0; day < 31; day++) { 
-                    const dailyInterest = dailyBalance * dailyRate;
-                    interestAccrued += dailyInterest;
-                    dailyBalance += dailyInterest; 
-                }
-
-                const monthlyInterest = roundToPenny(interestAccrued);
-                
-                // 2. Apply Payment
-                let effectivePayment = monthlyPayment;
-                
-                if (effectivePayment > (balance + monthlyInterest)) {
-                    effectivePayment = balance + monthlyInterest;
-                }
-                effectivePayment = roundToPenny(effectivePayment);
-
-                // 3. New balance = Old Balance + Interest - Payment, rounded at each step
-                balance = roundToPenny(balance + monthlyInterest - effectivePayment);
-                
-                months++;
-            }
-
-            if (balance <= EPSILON) {
-                return { months: months, remainingBalance: 0, writtenOff: false };
-            }
-
-            return { months: maxTermMonths, remainingBalance: balance, writtenOff: true };
-        }
-
-        /**
-         * Calculates the annual contribution amount based on value and type, rounded to the penny.
-         */
-        function calculateAnnualContribution(salary, value, type) {
-            let annualAmount;
-            if (type === 'percent') {
-                annualAmount = salary * (value / 100);
+        function togglePlanTooltipBox() {
+            const group = document.getElementById('ugPlanTooltipCard');
+            if (group.style.display === 'block') {
+                group.style.display = 'none';
             } else {
-                annualAmount = value * 12;
-            }
-            return roundToPenny(annualAmount);
-        }
-
-        /**
-         * Calculates the pension contributions and returns the Adjusted Gross Salary.
-         */
-        function calculatePensions(annualSalary, employeeValue, employeeType, employerValue, employerType, isSacrifice) {
-            
-            const annualEmployee = calculateAnnualContribution(annualSalary, employeeValue, employeeType);
-            const annualEmployer = calculateAnnualContribution(annualSalary, employerValue, employerType);
-            
-            let adjustedGrossSalary = annualSalary;
-
-            const sacrificeImpactBox = document.getElementById('salarySacrificeImpact');
-            const annualSacrificeAmount = document.getElementById('annualSacrificeAmount');
-            const adjustedGrossSalaryText = document.getElementById('adjustedGrossSalary');
-
-            if (isSacrifice) {
-                adjustedGrossSalary = annualSalary - annualEmployee;
-                
-                sacrificeImpactBox.classList.remove('hidden');
-                annualSacrificeAmount.textContent = formatCurrency(annualEmployee);
-                adjustedGrossSalaryText.textContent = formatCurrency(adjustedGrossSalary);
-            } else {
-                adjustedGrossSalary = annualSalary;
-                sacrificeImpactBox.classList.add('hidden');
-            }
-            
-            adjustedGrossSalary = roundToPenny(adjustedGrossSalary);
-
-            const monthlyEmployee = roundToPenny(annualEmployee / 12);
-            const monthlyEmployer = roundToPenny(annualEmployer / 12);
-            const monthlyTotal = roundToPenny((annualEmployee + annualEmployer) / 12);
-
-            document.getElementById('monthlyEmployee').textContent = formatCurrency(monthlyEmployee);
-            document.getElementById('monthlyEmployer').textContent = formatCurrency(monthlyEmployer);
-            document.getElementById('monthlyTotalPension').textContent = formatCurrency(monthlyTotal);
-            
-            return adjustedGrossSalary;
-        }
-        
-        /**
-         * Calculates and displays the interest breakdown.
-         */
-        function calculateInterestBreakdown(currentBalance, annualRateDecimal) {
-            const dailyRate = annualRateDecimal / DAYS_PER_YEAR;
-            
-            const dailyInterest = roundToPenny(currentBalance * dailyRate);
-            const weeklyInterest = roundToPenny(dailyInterest * 7);
-
-            let monthlyInterestAccrued = 0;
-            let dailyBalance = currentBalance;
-            for (let day = 0; day < 31; day++) { 
-                const dailyInterestCalc = dailyBalance * dailyRate;
-                monthlyInterestAccrued += dailyInterestCalc;
-                dailyBalance += dailyInterestCalc;
-            }
-            const monthlyInterest = roundToPenny(monthlyInterestAccrued);
-            
-            let annualInterestAccrued = 0;
-            dailyBalance = currentBalance;
-            for (let day = 0; day < 365; day++) {
-                const dailyInterestCalc = dailyBalance * dailyRate;
-                annualInterestAccrued += dailyInterestCalc;
-                dailyBalance += dailyInterestCalc;
-            }
-            const annualInterest = roundToPenny(annualInterestAccrued);
-
-
-            document.getElementById('dailyInterest').textContent = formatCurrency(dailyInterest);
-            document.getElementById('weeklyInterest').textContent = formatCurrency(weeklyInterest);
-            document.getElementById('monthlyInterest').textContent = formatCurrency(monthlyInterest);
-            document.getElementById('annualInterest').textContent = formatCurrency(annualInterest);
-            
-            return { monthlyInterest, annualInterest };
-        }
-
-        /**
-         * Calculates the Student Loan repayments and projections.
-         */
-        function calculateStudentLoan(relevantAnnualSalary, currentBalance, annualRate, monthlyOverpayment, plan) {
-            
-            const SL_THRESHOLD_ANNUAL = plan.threshold;
-            const SL_REPAYMENT_RATE = plan.rate;
-            const MAX_TERM_YEARS = plan.term;
-
-            document.getElementById('currentThreshold').textContent = formatCurrency(SL_THRESHOLD_ANNUAL);
-            document.getElementById('currentRate').textContent = `${(SL_REPAYMENT_RATE * 100).toFixed(0)}%`;
-            document.getElementById('maxTermYears').textContent = `${MAX_TERM_YEARS} Years`; 
-            document.getElementById('maxTermYears2').textContent = `${MAX_TERM_YEARS} Years`;
-
-            let monthlyStatutoryRepayment = 0;
-            
-            if (relevantAnnualSalary > SL_THRESHOLD_ANNUAL) {
-                const annualExcess = relevantAnnualSalary - SL_THRESHOLD_ANNUAL;
-                const annualRepayment = annualExcess * SL_REPAYMENT_RATE;
-                
-                monthlyStatutoryRepayment = roundToPenny(annualRepayment / 12);
-            }
-            
-            const monthlyTotalPayment = roundToPenny(monthlyStatutoryRepayment + monthlyOverpayment);
-
-            document.getElementById('monthlyStatutory').textContent = formatCurrency(monthlyStatutoryRepayment);
-            document.getElementById('monthlyTotalRepayment').textContent = formatCurrency(monthlyTotalPayment);
-
-            const annualRateDecimal = annualRate / 100;
-            calculateInterestBreakdown(currentBalance, annualRateDecimal);
-            
-            const resultStatutory = runAmortization(
-                currentBalance, 
-                monthlyStatutoryRepayment, 
-                annualRateDecimal,
-                MAX_TERM_YEARS
-            );
-
-            const resultWithOverpayment = runAmortization(
-                currentBalance, 
-                monthlyTotalPayment, 
-                annualRateDecimal,
-                MAX_TERM_YEARS
-            );
-
-            const payoffStatutoryElement = document.getElementById('payoffStatutory');
-            const payoffOverpaymentElement = document.getElementById('payoffWithOverpayment');
-            const differenceElementText = document.getElementById('payoffDifferenceText');
-            const noteElement = document.getElementById('loanProjectionNote');
-            const differenceBox = document.getElementById('payoffDifferenceBox');
-
-            payoffStatutoryElement.textContent = formatTime(resultStatutory.months, MAX_TERM_YEARS);
-            payoffOverpaymentElement.textContent = formatTime(resultWithOverpayment.months, MAX_TERM_YEARS);
-
-            let differenceMonths = Math.round(resultStatutory.months - resultWithOverpayment.months);
-            let differenceYears = Math.floor(differenceMonths / 12);
-            let differenceMonthsRemainder = differenceMonths % 12;
-            
-            if (differenceMonths > 0 && !resultWithOverpayment.writtenOff) {
-                differenceBox.style.display = 'flex'; 
-                // Removed the animate-pulse-red class from the DOM element via JavaScript
-                differenceBox.classList.remove('animate-pulse-red');
-                
-                const formattedTime = `${differenceYears} Year${differenceYears !== 1 ? 's' : ''}, ${differenceMonthsRemainder} Month${differenceMonthsRemainder !== 1 ? 's' : ''}`;
-                
-                differenceElementText.textContent = `You save ${formattedTime} off your loan term!`;
-            } else {
-                differenceBox.style.display = 'none';
-                differenceElementText.textContent = 'Calculating...'; 
-            }
-
-            if (currentBalance <= 0) {
-                 noteElement.textContent = "Your loan balance is £0. No repayments required.";
-            } else if (resultStatutory.writtenOff && resultWithOverpayment.writtenOff) {
-                noteElement.textContent = `Based on these inputs, both scenarios result in the loan being written off after ${MAX_TERM_YEARS} years. The voluntary overpayment still reduces the final outstanding balance.`;
-            } else if (monthlyStatutoryRepayment === 0 && monthlyOverpayment === 0) {
-                noteElement.textContent = `The loan balance will likely continue to grow due to interest as payments are zero. Projected remaining balance after ${MAX_TERM_YEARS} years: ${formatCurrency(resultStatutory.remainingBalance)}.`;
-            } else {
-                noteElement.textContent = "This projection assumes a constant interest rate and current relevant salary over the entire loan term, and ignores future threshold changes.";
+                const planType = document.getElementById('ugPlanSelect').value;
+                group.innerHTML = LOAN_PLANS[planType] ? LOAN_PLANS[planType].tooltip : '';
+                group.style.display = 'block';
             }
         }
-        
-        /**
-         * Handles the loan plan selection change to set a relevant default interest rate.
-         */
-        function handleLoanPlanChange(event) {
-            const selectedPlanKey = event.target.value;
-            const selectedPlan = LOAN_PLANS[selectedPlanKey];
-            const interestRateInput = document.getElementById('interestRate');
-
-            if (selectedPlan && selectedPlan.defaultRate !== undefined) {
-                interestRateInput.value = selectedPlan.defaultRate.toFixed(2);
-            }
-            
+        function updatePlanInfo() {
+            document.getElementById('ugPlanTooltipCard').style.display="none";
+        }
+        function updatePGFields() {
+            var show = document.getElementById('pgEnabledDropdown').value === "yes";
+            document.getElementById('pgFieldsContainer').style.display = show ? "block" : "none";
             updateCalculators();
         }
 
-        /**
-         * Safely parses a number from an input field, cleaning it of commas.
-         */
-        function parseInput(id) {
-            const inputElement = document.getElementById(id);
-            const rawValue = inputElement?.value;
-
-            // 1. Clean the string: remove commas (,) and any non-digit characters except the period (.).
-            const cleanValue = rawValue?.replace(/,/g, ''); 
-
-            // 2. Attempt to parse the cleaned value
-            const parsed = parseFloat(cleanValue || '0');
-            
-            // 3. Return 0 if not a valid number (NaN), or ensure it's not negative
-            return isNaN(parsed) ? 0 : Math.max(0, parsed);
+        function parseInput(val) { return Math.max(0, parseFloat(String(val).replace(/[^0-9.]/g, '')) || 0); }
+        function formatCurrency(val) { return "£" + (val || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+        function calculateIncomeTax(taxableSalary) {
+            let tax = 0; let effectivePA = 12570;
+            if (taxableSalary > 100000) effectivePA = Math.max(0, effectivePA - ((taxableSalary - 100000) / 2));
+            let incomeTaxable = Math.max(0, taxableSalary - effectivePA);
+            if (incomeTaxable > 125140) { tax += (incomeTaxable - 125140) * 0.45; incomeTaxable = 125140; }
+            if (incomeTaxable > 53690) { tax += (incomeTaxable - 53690) * 0.40; incomeTaxable = 53690; }
+            tax += incomeTaxable * 0.20; return tax;
         }
-
-        /**
-         * Visually updates the stars based on the selected rating.
-         */
-        function styleRating(name) {
-            const selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
-            const selectedValue = selectedRadio ? parseInt(selectedRadio.value) : 0;
-
-            // Find the parent container and all stars within it
-            const form = document.getElementById('feedbackForm');
-            const stars = Array.from(form.querySelectorAll('.rating-star'));
-
-            stars.forEach(star => {
-                const rating = parseInt(star.getAttribute('data-rating'));
-                if (rating <= selectedValue) {
-                    star.classList.remove('text-gray-300');
-                    star.classList.add('text-yellow-400');
-                } else {
-                    star.classList.add('text-gray-300');
-                    star.classList.remove('text-yellow-400');
+        function calculateNationalInsurance(taxableSalary) {
+            let ni = 0;
+            const income = Math.max(0, taxableSalary - 12570);
+            if (income > 0) {
+                const inMainBand = Math.min(income, 53690 - 12570);
+                ni += inMainBand * 0.08;
+                if (taxableSalary > 53690) {
+                    ni += (taxableSalary - 53690) * 0.02;
                 }
-            });
-            // Hide error message once a rating is selected
-            const ratingError = document.getElementById('ratingError');
-            if (selectedValue > 0) {
-                ratingError.textContent = '';
-                ratingError.style.display = 'none';
-            }  
+            }
+            return ni;
+        }
+        function calculateStudentLoanRepayment(baseSalary, planType) {
+            const plan = LOAN_PLANS[planType];
+            if (!plan) return 0;
+            const incomeAbove = Math.max(0, baseSalary - plan.threshold);
+            return incomeAbove * plan.rate;
+        }
+        function calculatePGLoanRepayment(baseSalary) {
+            const incomeAbove = Math.max(0, baseSalary - PG_PLAN.threshold);
+            return incomeAbove * PG_PLAN.rate;
+        }
+        function projectLoanPayoff(initialBalance, monthlyPayment, annualInterestRate, writeOffYears) {
+            let balance = initialBalance, paidInterest = 0, months = 0;
+            const monthlyRate = (annualInterestRate/100)/12;
+            const maxMonths = writeOffYears*12;
+            const currentYear = new Date().getFullYear();
+            if (balance <= 0) return { years: "Paid off", totalInterest: 0 };
+            if (monthlyPayment <= 0 || monthlyPayment < balance * monthlyRate)
+                return { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, totalInterest: 0 };
+            while (balance > 0 && months < maxMonths) {
+                const interestMonth = balance * monthlyRate;
+                paidInterest += interestMonth;
+                const payment = Math.min(monthlyPayment, balance + interestMonth);
+                balance += interestMonth - payment;
+                months++;
+            }
+            const payoffYears = (months/12).toFixed(1);
+            return balance <= 0
+                ? { years: `${payoffYears}`, totalInterest: paidInterest }
+                : { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, totalInterest: paidInterest };
         }
 
-
-        /**
-         * Main function to retrieve inputs and trigger all calculations.
-         */
         function updateCalculators() {
+            const origSalary = parseInput(document.getElementById('annualSalary').value);
+            const empPct = parseInput(document.getElementById('employeeValue').value)/100;
+            const erPct = parseInput(document.getElementById('employerValue').value)/100;
+            const isSS = document.getElementById('salarySacrificeToggle').checked;
+            const annualEmployeeContribution = origSalary * empPct;
+            const annualEmployerContribution = origSalary * erPct;
+            const annualTotalContribution = annualEmployeeContribution + annualEmployerContribution;
+            const sacrificeAmt = isSS ? annualEmployeeContribution : 0;
+            const adjustedSalary = origSalary - sacrificeAmt;
             
-            // --- Global Input ---
-            const annualSalary = parseInput('annualSalary');
-
-            // --- Pensions Inputs ---
-            const employeeValue = parseInput('employeeValue');
-            const employeeType = getSelectedRadioValue('employeeType');
-            const employerValue = parseInput('employerValue');
-            const employerType = getSelectedRadioValue('employerType');
-            const isSacrifice = document.getElementById('salarySacrifice')?.checked || false;
-
-            // --- Student Loan Inputs ---
-            const selectedPlanKey = document.getElementById('loanPlan')?.value || 'P2';
-            const selectedPlan = LOAN_PLANS[selectedPlanKey];
-            
-            if (!selectedPlan) {
-                console.error("Invalid loan plan selected, stopping calculations.");
-                return;
+            let ugPlanType = document.getElementById('ugPlanSelect').value || 'P1';
+            let ugBalance = parseInput(document.getElementById('currentBalance').value);
+            let ugInterestInput = document.getElementById('interestRate');
+            if (ugInterestInput.dataset.currentPlan !== ugPlanType) {
+                ugInterestInput.value = LOAN_PLANS[ugPlanType].defaultRate.toFixed(2);
+                ugInterestInput.dataset.currentPlan = ugPlanType;
             }
-
-            const currentBalance = parseInput('currentBalance');
-            const annualRate = parseInput('interestRate');
-            const monthlyOverpayment = parseInput('monthlyOverpayment');
+            let ugInterest = parseInput(ugInterestInput.value);
+            let ugWriteOff = LOAN_PLANS[ugPlanType].writeOff;
+            let monthlyOverpay = parseInput(document.getElementById('monthlyOverpayment').value);
             
-            
-            // --- Run Pensions & Get Adjusted Salary ---
-            const adjustedSalary = calculatePensions(
-                annualSalary, 
-                employeeValue, employeeType, 
-                employerValue, employerType, 
-                isSacrifice
-            );
-            
-            // --- Run Student Loan Calculation (using Adjusted Salary) ---
-            calculateStudentLoan(adjustedSalary, currentBalance, annualRate, monthlyOverpayment, selectedPlan);
-        }
+            let pgEnabled = document.getElementById('pgEnabledDropdown').value === "yes";
+            let pgBalance = pgEnabled ? parseInput(document.getElementById('pgBalance').value) : 0;
+            let pgInterest = pgEnabled ? parseInput(document.getElementById('pgInterest').value) : PG_PLAN.defaultRate;
 
-        // --- FEEDBACK SUBMISSION LOGIC ---
+            const annualTax = calculateIncomeTax(adjustedSalary);
+            const annualNI = calculateNationalInsurance(adjustedSalary);
+            const niSaving = isSS ? calculateNationalInsurance(origSalary) - annualNI : 0;
+            let annualUGSLR = calculateStudentLoanRepayment(adjustedSalary, ugPlanType);
+            let annualPGSLR = pgEnabled ? calculatePGLoanRepayment(adjustedSalary) : 0;
+            let annualSLR = annualUGSLR + annualPGSLR;
+            const totalAnnualDeductions = annualTax + annualNI + annualSLR + annualEmployeeContribution;
+            const annualNetPay = origSalary - totalAnnualDeductions + niSaving;
+            const monthlyNetPay = annualNetPay/12;
+            const monthlyTotalContribution = annualTotalContribution/12;
+            const monthlyEmployeeCost = isSS 
+                ? (annualEmployeeContribution - niSaving)/12
+                : annualEmployeeContribution/12;
+            const monthlyUGPayment = annualUGSLR/12;
+            const monthlyPGPayment = annualPGSLR/12;
+            const monthlyTotalLoanPayment = monthlyUGPayment + monthlyPGPayment;
+            const mandatoryUGPayoff = projectLoanPayoff(ugBalance, monthlyUGPayment, ugInterest, ugWriteOff);
+            const combinedUGPayoff = projectLoanPayoff(ugBalance, monthlyUGPayment + monthlyOverpay, ugInterest, ugWriteOff);
 
-        // UPDATED FORM_URL: Using the provided document ID in the standard formResponse structure.
-        // NOTE: The ID below is the DOCUMENT ID from the user's edit link.
-        // If submissions still fail, the user must get the "Share" or "Published" link
-        // which contains the specific 44-character /e/ submission ID.
-        const FORM_ID = '1rQ43rOzrqd0iVx9Rl7_bI7sS_1rqBfLsOIA3rvB-8Rw';
-        // Using the /d/{ID}/formResponse structure which is sometimes more forgiving
-        const FORM_URL = `https://docs.google.com/forms/d/${FORM_ID}/formResponse`;
-        
-        // Correct Field Names (Entry IDs) from Google Form (Confirmed from previous working HTML)
-        const FIELD_RATING_NAME = 'entry.1696159737'; 
-        const FIELD_TYPE_NAME = 'entry.1591633300';
-        const FIELD_DETAILS_NAME = 'entry.326955045'; 
-
-        const submitButton = document.getElementById('submitButton');
-        const buttonText = document.getElementById('buttonText');
-        const spinner = document.getElementById('spinner');
-        const statusMessage = document.getElementById('statusMessage');
-        const feedbackForm = document.getElementById('feedbackForm');
-
-        /**
-         * Updates the submission button and status UI.
-         */
-        function setStatus(state, message = '') {
-            submitButton.disabled = state === 'loading';
-            buttonText.textContent = state === 'loading' ? 'Sending...' : 'Submit Feedback';
-            spinner.classList.toggle('hidden', state !== 'loading');
-            statusMessage.className = 'text-sm font-semibold';
-
-            if (state === 'success') {
-                statusMessage.textContent = message;
-                statusMessage.classList.add('text-green-600');
-                document.getElementById('feedbackDetails').value = '';
-                
-                // Reset the rating radio buttons and star visuals
-                const ratingRadios = document.getElementsByName(FIELD_RATING_NAME);
-                ratingRadios.forEach(radio => radio.checked = false);
-                styleRating(FIELD_RATING_NAME); // Reset star colors
-
-                setTimeout(() => statusMessage.textContent = '', 5000);
-            } else if (state === 'error') {
-                statusMessage.textContent = message;
-                statusMessage.classList.add('text-red-600');
-            } else if (state === 'reset') {
-                 statusMessage.textContent = '';
-            }
-        }
-
-
-        /**
-         * Handles the asynchronous form submission to Google Forms.
-         */
-        async function submitFeedback(event) {
-            event.preventDefault();
-            setStatus('reset');
-
-            const form = event.target;
-            const ratingError = document.getElementById('ratingError');
-            
-            // Check HTML5 validity for 'required' fields
-            if (!form.checkValidity()) {
-                 setStatus('error', 'Please fill out all required fields (rating, type, and details).');
-                 return;
-            }
-
-            //  Manually check if a rating was selected and show contextual error
-            if (!document.querySelector(`input[name="${FIELD_RATING_NAME}"]:checked`)) {
-                ratingError.textContent = 'Please select a star rating before submitting.';
-                ratingError.style.display = 'block';
-                setStatus('reset'); // Don't show top-level error, just error next to scale
-                return;
+            const adjustedGrossRow = document.getElementById('adjustedGrossRow');
+            if (isSS && sacrificeAmt > 0) {
+                adjustedGrossRow.style.display = "";
+                document.getElementById('adjustedGrossSalary').textContent = formatCurrency(adjustedSalary);
             } else {
-                ratingError.textContent = '';
-                ratingError.style.display = 'none';
+                adjustedGrossRow.style.display = "none";
+            }
+            document.getElementById('monthlyNetPay').textContent = formatCurrency(monthlyNetPay);
+            document.getElementById('annualNetPay').textContent = formatCurrency(annualNetPay);
+            document.getElementById('annualDeductions').textContent = formatCurrency(totalAnnualDeductions);
+
+            document.getElementById('monthlyTotalContribution').textContent = formatCurrency(monthlyTotalContribution);
+            document.getElementById('monthlyEmployeeCost').textContent = formatCurrency(monthlyEmployeeCost);
+            document.getElementById('monthlyEmployerContribution').textContent = formatCurrency(annualEmployerContribution/12);
+            document.getElementById('annualNISaving').textContent = formatCurrency(niSaving);
+
+            const adjustedSalaryContainer = document.getElementById('adjustedSalaryContainer');
+            if (isSS && sacrificeAmt > 0) {
+                adjustedSalaryContainer.classList.remove('hidden');
+                document.getElementById('adjustedTaxableSalary').textContent = formatCurrency(adjustedSalary);
+            } else {
+                adjustedSalaryContainer.classList.add('hidden');
             }
 
-            const formData = new FormData(form);
-            const urlSearchParams = new URLSearchParams(formData);
+            document.getElementById("monthlyUGPayment").textContent = formatCurrency(monthlyUGPayment);
+            document.getElementById("monthlyPGPayment").textContent = formatCurrency(monthlyPGPayment);
+            document.getElementById("monthlyTotalPayment").textContent = formatCurrency(monthlyTotalLoanPayment);
 
-            setStatus('loading');
-            
-            // Log the payload and URL for debugging
-            console.log('Attempting to submit to URL:', FORM_URL);
-            console.log('Payload being sent (URL Encoded):', urlSearchParams.toString());
+            document.getElementById("payoffYearsMandatory").textContent = mandatoryUGPayoff.years;
+            document.getElementById("totalInterestMandatory").textContent = formatCurrency(mandatoryUGPayoff.totalInterest);
+            document.getElementById("payoffYearsCombined").textContent = combinedUGPayoff.years;
+            document.getElementById("totalInterestCombined").textContent = formatCurrency(combinedUGPayoff.totalInterest);
+        }
 
-
-            try {
-                // Fetch request to Google Forms endpoint
-                const response = await fetch(FORM_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', 
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: urlSearchParams.toString(),
+        // --- Tabs and plan info ---
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabGroup = button.getAttribute('data-tab-group');
+                    const targetPanelId = button.getAttribute('aria-controls');
+                    document.querySelectorAll(`.tab-button[data-tab-group="${tabGroup}"]`).forEach(btn => {
+                        btn.classList.remove('active','text-indigo-700','border-indigo-700');
+                        btn.classList.add('text-gray-600','border-transparent');
+                        btn.setAttribute('aria-selected','false');
+                        btn.setAttribute('tabindex','-1');
+                    });
+                    document.querySelectorAll(`.tab-panel[data-tab-group="${tabGroup}"]`).forEach(panel => {
+                        panel.classList.add('hidden');
+                    });
+                    button.classList.add('active','text-indigo-700','border-indigo-700');
+                    button.classList.remove('text-gray-600','border-transparent');
+                    button.setAttribute('aria-selected','true');
+                    button.setAttribute('tabindex','0');
+                    document.getElementById(targetPanelId).classList.remove('hidden');
                 });
-
-                // Since we use 'no-cors', we can only confirm the request was sent, not the server's success code.
-                // We assume success unless a network error prevents the fetch call entirely.
-                setStatus('success', 'Thank you! Your feedback has been submitted.');
-
-            } catch (error) {
-                console.error('Feedback submission failed:', error);
-                setStatus('error', 'Submission failed. Please check your network connection and ensure the FORM_URL is correct.');
-            }
-        }
-        
-        // --- MODAL LOGIC ---
-        /**
-         * Opens the specified modal by showing its overlay.
-         */
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
+            });
+            if (tabButtons.length > 0) tabButtons[0].click();
         }
 
-        /**
-         * Closes the specified modal. Can be triggered by the button or clicking the backdrop.
-         */
-        function closeModal(event, modalId) {
-            const modal = document.getElementById(modalId);
-            if (event === null || event.target === modal) {
-                modal.classList.add('hidden');
-            }
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            initTabs();
+            updatePGFields();
+            updatePlanInfo();
+            updateCalculators();
 
-        // Run on page load once all the DOM content is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-             // Change all numerical inputs to type="text" to allow non-numerical characters (like commas)
-             // and rely entirely on JS parsing.
-             document.getElementById('annualSalary').type = 'text';
-             document.getElementById('employeeValue').type = 'text';
-             document.getElementById('employerValue').type = 'text';
-             document.getElementById('currentBalance').type = 'text';
-             document.getElementById('interestRate').type = 'text';
-             document.getElementById('monthlyOverpayment').type = 'text';
+            var ratingLabels = document.querySelectorAll('.rating-label');
+            ratingLabels.forEach(function(label, idx) {
+                var input = label.querySelector('input[type="radio"]');
+                label.addEventListener('click', function() {
+                    input.checked = true;
+                    highlightStars(idx+1);
+                    document.getElementById('ratingError').textContent = '';
+                    document.getElementById('ratingError').style.display = 'none';
+                });
+                label.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        input.checked = true;
+                        highlightStars(idx+1);
+                        document.getElementById('ratingError').textContent = '';
+                        document.getElementById('ratingError').style.display = 'none';
+                    }
+                });
+            });
 
-             // Initialize the interest rate with the default for the initially selected Plan 2
-             document.getElementById('interestRate').value = LOAN_PLANS['P2'].defaultRate.toFixed(2);
-             updateCalculators();
+            document.getElementById('submitFeedbackBtn').addEventListener('click', function() {
+                handleSubmitFeedback();
+            });
         });
 
+        function highlightStars(n) {
+            var stars = document.querySelectorAll('.rating-label');
+            for (let i=0; i < stars.length; ++i) {
+                if (i < n) stars[i].classList.add('selected');
+                else stars[i].classList.remove('selected');
+            }
+        }
+        function getSelectedRating() {
+            var radios = document.querySelectorAll('.rating-label input[type="radio"]');
+            for (const radio of radios) {
+                if (radio.checked) return radio.value;
+            }
+            return '';
+        }
+        function resetFeedbackForm() {
+            highlightStars(0);
+            var radios = document.querySelectorAll('.rating-label input[type="radio"]');
+            radios.forEach(r => r.checked = false);
+            document.getElementById('feedbackType').value = '';
+            document.getElementById('feedbackComments').value = '';
+            document.getElementById('ratingError').textContent = '';
+            document.getElementById('ratingError').style.display = 'none';
+            var statusEl = document.getElementById('feedbackStatus');
+            statusEl.textContent = '';
+            statusEl.className = 'feedback-status-message';
+        }
+        function handleFeedbackCancel() {
+            resetFeedbackForm();
+            closeModal(null, 'feedbackModal');
+        }
+        function handleSubmitFeedback() {
+            var rating = getSelectedRating();
+            var feedbackType = document.getElementById('feedbackType').value;
+            var comments = document.getElementById('feedbackComments').value.trim();
+            var statusEl = document.getElementById('feedbackStatus');
+            var ratingError = document.getElementById('ratingError');
+            statusEl.className = 'feedback-status-message';
+            statusEl.textContent = '';
+            ratingError.textContent = '';
+            ratingError.style.display = 'none';
+
+            if (!rating) {
+                ratingError.textContent = 'Please select a star rating before submitting.';
+                ratingError.style.display = 'block';
+                return;
+            }
+            if (!feedbackType) {
+                statusEl.textContent = 'Please select a Feedback Type before submitting.';
+                statusEl.classList.add('feedback-status-error');
+                return;
+            }
+            if (!comments) {
+                statusEl.textContent = 'Please provide comments or suggestions before submitting.';
+                statusEl.classList.add('feedback-status-error');
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('entry.1696159737', rating);
+            formData.append('entry.1591633300', feedbackType);
+            formData.append('entry.326955045', comments);
+
+            statusEl.textContent = 'Sending...';
+
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLSffXyvIYSpV5Ku8MMlum5YLKSZLA1SJMmVQgc5Ho63-M3WRWg/formResponse', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: new URLSearchParams(Array.from(formData))
+            }).then(() => {
+                statusEl.textContent = 'Thank you! Your feedback has been submitted.';
+                statusEl.classList.add('feedback-status-success');
+                resetFeedbackForm();
+            }).catch(() => {
+                statusEl.textContent = 'Submission failed. Please check your network connection and try again.';
+                statusEl.classList.add('feedback-status-error');
+            });
+        }
+
+        function openModal(modalId) {
+            let m = document.getElementById(modalId);
+            m.classList.remove('hidden');
+            m.setAttribute('aria-hidden','false');
+            if (modalId === 'feedbackModal') resetFeedbackForm();
+        }
+        function closeModal(event, modalId) {
+            const modal = document.getElementById(modalId);
+            if (event == null || event.target === modal) {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden','true');
+                if (modalId === 'feedbackModal') resetFeedbackForm();
+            }
+        }
     </script>
 </body>
 </html>
