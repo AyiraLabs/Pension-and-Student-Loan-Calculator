@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6CLTTNMLWK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-6CLTTNMLWK');
-</script>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "ucdwdpmciy");
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CLTTNMLWK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6CLTTNMLWK');
+    </script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ucdwdpmciy");
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pension Contributions & Student loan calculator (UK)</title>
@@ -62,10 +61,172 @@
         .pill-button:hover, .pill-button:focus {
             background: #d1d5db; outline: none;
         }
+        /* Small pill-button for course details and compounding interest cards */
+        .small-pill-button {
+            display: inline-flex; align-items: center; padding: 0.28rem 0.8rem;
+            border-radius: 9999px; background: #e5e7eb; color: #1f2937;
+            font-weight: 600; font-size: 0.875rem; /* text-sm */
+            box-shadow: 0 2px 8px 0 #0001;
+            border: none; cursor: pointer; transition: background 0.2s;
+            line-height: 1.2;
+        }
+        .small-pill-button:hover, .small-pill-button:focus {
+            background: #d1d5db; outline: none;
+        }
         .disclaimer-modal-content {
             max-height: 70vh; overflow-y: auto;
         }
+        .overpayment-slider-row {
+            margin-bottom: 1.4em;
+            margin-top: 0.2em;
+            padding: 0.8em 0.6em 0.8em 0.6em;
+            background: #f7fafc;
+            border-radius: 0.7em;
+            border: 1px solid #e0e7ff;
+            font-size: 0.98em;
+        }
+        .voluntary-over-table {
+            width: 100%;
+            margin-top: 1em;
+            font-size: 0.98em;
+            border-collapse: collapse;
+        }
+        .voluntary-over-table td {
+            padding: 4px 6px;
+        }
 
+        /* Collapsible card for compounding interest */
+        .collapsible-card {
+            background: #f7fafc;
+            border: 1px solid #a7f3d0;
+            border-radius: 0.85rem;
+            box-shadow: 0 2px 10px #0001;
+            margin-bottom: 2rem;
+            padding: 1.1rem 1.2rem 0.8rem 1.2rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+        .collapsible-icon {
+            transition: transform 0.2s;
+            border-radius: 9999px;
+            background: #d1fae5;
+            padding: 2px;
+        }
+        .collapsible-card[aria-expanded="true"] .collapsible-icon {
+            transform: rotate(90deg);
+        }
+        .collapsible-card[aria-expanded="false"] .collapsible-icon {
+            transform: rotate(0deg);
+        }
+        .comp-interest-body-content {
+            display: block;
+        }
+        .collapsible-card[aria-expanded="false"] .comp-interest-body-content {
+            display: none;
+        }
+        .collapsible-card[aria-expanded="true"] .comp-interest-body-content {
+            display: block;
+        }
+        .course-details-collapsible {
+            background: #eef2ff;
+            border: 1px solid #a7f3d0;
+            border-radius: 0.85rem;
+            box-shadow: 0 2px 10px #0001;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+            transition: box-shadow 0.2s;
+            padding: 0;
+        }
+        .course-details-trigger {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            justify-content: space-between;
+            padding: 0.4em 0.9em;
+            border-radius: 0.5em;
+            background: #e0e7ff;
+            font-size: 0.875rem;
+        }
+        .course-details-trigger .arrow {
+            display: inline-block;
+            transform: rotate(0deg);
+            transition: transform 0.2s;
+            margin-left: 10px;
+            background: #c7d2fe;
+            padding: 2px 6px;
+            border-radius: 9999px;
+        }
+        .course-details-collapsible[aria-expanded="true"] .course-details-trigger .arrow {
+            transform: rotate(90deg);
+        }
+        .course-details-inner {
+            padding: 0.8em 1.0em 0.6em 1.0em;
+            border-radius: 0.5em;
+            font-size: 0.875rem;
+        }
+        .course-details-exp-text {
+            font-size: 0.875em;
+            color: #6d28d9;
+            margin-bottom: 0.7em;
+            padding-left: 0.1em;
+        }
+        .course-details-field {
+            margin-bottom: 1.05em;
+        }
+        .course-details-label {
+            font-weight: 600;
+            color: #4338ca;
+            font-size: 0.875em;
+            margin-bottom: 0.2em;
+        }
+        .course-details-error {
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 0.875em;
+            margin-bottom: 6px;
+        }
+        .course-details-warning {
+            color: #ea580c;
+            font-weight: 600;
+            font-size: 0.875em;
+            margin-bottom: 6px;
+        }
+        .course-details-confirmation {
+            color: #16a34a;
+            font-weight: 600;
+            font-size: 0.875em;
+            margin-bottom: 6px;
+        }
+        .course-details-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            margin-top: 0.7em;
+        }
+        .course-details-dropdown {
+            display: inline-block;
+            min-width: 75px;
+            margin-right: 0.7em;
+            margin-bottom: 0.1em;
+            border-radius: 8px;
+            border: 1px solid #4f46e5;
+            background: #fff;
+            padding: 0.41em 0.7em;
+            font-size: 0.875em;
+            color: #3b3b3b;
+            line-height: 1.2;
+        }
         /* Footer layout for update */
         .footer-row {
             width: 100%;
@@ -153,13 +314,14 @@
             border: 1px solid #4f46e5;
             border-radius: 0.75em;
             box-shadow: 0 4px 16px #0001;
-            padding: 1em 1.4em 1em 1.4em;
-            font-size: 1.03em;
+            padding: 1em 1.4em 1.7em 1.4em;
+            font-size: 1rem;
             color: #253;
             min-width: 220px;
             position: absolute;
             left: 0;
             top: 0.25em;
+            font-family: inherit;
         }
         .plan-tooltip-card .tooltip-header {
             display: flex;
@@ -168,18 +330,62 @@
             font-weight: bold;
             color: #3b3b3b;
             margin-bottom: 0.5em;
+            font-size: 1rem;
+            font-family: inherit;
         }
         .plan-tooltip-card .tooltip-icon {
             width: 18px;
             height: 18px;
             color: #4f46e5;
         }
-
+        .plan-tooltip-close {
+            margin: 0 auto;
+            display: block;
+            margin-top: 1em;
+            font-size: 1rem;
+            font-family: inherit;
+        }
         .field-required {
             display: block;
             font-size: 0.97em;
             color: #dc2626;
             margin-top: 2px;
+        }
+        /* Compounding table specifics */
+        .comp-table { width: 100%; background: #fff; border-radius: 0.5rem; margin-top: 0.2em; }
+        .comp-table th, .comp-table td { padding: 0.28em 0.28em; text-align: left; font-size: 0.875rem; font-family: inherit; }
+        .comp-table th { color: #0b7e3c; font-weight: 700; background: #d1fae5;}
+        .comp-table tr { border-bottom: 1px solid #cbd5e1;}
+        .comp-table td { color: #222; }
+        .comp-table .na-td { color: #888; font-style: italic; }
+        .comp-table .zero-td { color: #999; }
+
+        @media (max-width: 640px) {
+            .collapsible-card,
+            .course-details-inner {
+                padding: 0.6em 0.4em 0.5em 0.4em;
+            }
+            .course-details-trigger {
+                padding: 0.35em 0.5em;
+            }
+            .comp-table th, .comp-table td {
+                padding: 0.18em 0.10em;
+                font-size: 0.85rem;
+            }
+            .course-details-dropdown {
+                font-size: 0.85em;
+                padding: 0.37em 0.51em;
+            }
+            .small-pill-button {
+                padding: 0.21rem 0.55rem;
+                font-size: 0.85rem;
+            }
+            .overpayment-slider-row {
+                padding: 0.55em 0.22em 0.55em 0.22em;
+            }
+            .voluntary-over-table {
+                font-size: 0.89em;
+            }
         }
     </style>
 </head>
@@ -192,20 +398,17 @@
         <p class="text-xl text-gray-600 mb-2">
             Calculate your pension contributions and student loan repayment projections.
         </p>
-        <button
-            class="pill-button mt-2"
+        <button class="pill-button mt-2"
             onclick="openModal('disclaimerModal')"
             aria-label="Open important disclaimer"
-            tabindex="0"
-        >
+            tabindex="0">
             Important Disclaimers
         </button>
     </header>
-
     <!-- Main Calculator Card -->
     <main class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-8 lg:p-12 border border-gray-100">
-
         <!-- Gross Salary Section -->
+        <!-- ... [the rest of the file continues below] ... -->
         <section class="mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Your Gross Annual Salary</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -213,18 +416,14 @@
                 <div>
                     <label for="annualSalary" class="block text-sm font-medium text-gray-700">Gross Annual Salary (£)</label>
                     <input type="text" id="annualSalary" value="45000" oninput="updateCalculators()"
-                           class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 text-lg">
+                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 text-lg">
                     <p class="text-xs text-gray-500 mt-1">Enter your annual salary. Calculations update live.</p>
                 </div>
                 <!-- Results Summary -->
                 <div class="bg-indigo-50 p-4 rounded-lg shadow-inner" id="summarySection">
                     <h3 class="text-lg font-semibold text-indigo-800 mb-2">Estimated Take-Home Pay</h3>
                     <div class="space-y-1">
-                        <p
-                            class="flex justify-between text-sm text-orange-800"
-                            id="adjustedGrossRow"
-                            style="display:none"
-                        >
+                        <p class="flex justify-between text-sm text-orange-800" id="adjustedGrossRow" style="display:none">
                             Gross Annual Salary (inc Salary Sacrifice):
                             <span id="adjustedGrossSalary" class="font-bold text-orange-700">£0.00</span>
                         </p>
@@ -242,23 +441,21 @@
                 </div>
             </div>
         </section>
-
         <!-- TABBED SECTION CONTAINER -->
         <section class="mt-8">
             <!-- Tab Headers -->
             <div role="tablist" aria-label="Financial Calculators" class="flex flex-wrap space-x-1 sm:space-x-2 border-b border-gray-300 -mb-px">
                 <button id="tab-pension" role="tab" aria-selected="true" aria-controls="pensionCalculator" tabindex="0"
-                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 hover:border-indigo-700"
                         data-tab-group="financial-calc">
                     Pension Contribution Calculator
                 </button>
                 <button id="tab-loan" role="tab" aria-selected="false" aria-controls="studentLoanCalculator" tabindex="-1"
-                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="tab-button w-full sm:w-auto px-4 py-2 text-sm md:text-base font-semibold transition duration-150 ease-in-out border-b-2 border-transparent text-gray-600 hover:text-indigo-700 hover:border-indigo-700"
                         data-tab-group="financial-calc">
                     Student Loan Repayments & Payoff Projection
                 </button>
             </div>
-
             <!-- Tab Panels -->
             <!-- Pension Calculator Content -->
             <div id="pensionCalculator" role="tabpanel" aria-labelledby="tab-pension" class="tab-panel p-4 bg-indigo-50 rounded-b-lg shadow-inner mt-4 sm:mt-0"
@@ -318,7 +515,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Student Loan Calculator Content -->
             <div id="studentLoanCalculator" role="tabpanel" aria-labelledby="tab-loan" class="tab-panel hidden p-4 bg-pink-50 rounded-b-lg shadow-inner mt-4 sm:mt-0"
                  data-tab-group="financial-calc">
@@ -346,7 +542,67 @@
                                     Info
                                 </button>
                                 <div class="plan-tooltip-card" id="ugPlanTooltipCard">
-                                    <!-- Tooltip populated by JS -->
+                                    <!-- Tooltip populated by JS. Close button added below -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Collapsible Course Details Section (NEW) -->
+                        <div id="courseDetailsCollapsible" class="course-details-collapsible mb-3" aria-expanded="false">
+                            <div class="course-details-trigger" onclick="toggleCourseDetailsCollapsible()">
+                                <span id="courseDetailsTriggerText">Enter course details for accurate write-off date</span>
+                                <span class="arrow">&#9654;</span>
+                            </div>
+                            <div id="courseDetailsInner" class="course-details-inner hidden">
+                                <div class="course-details-exp-text">
+                                    <span>Repayment start date — the earliest you’ll start repaying is:</span>
+                                    <ul style="margin:0.5em 0 0.7em 1em; padding-left:1.1em; list-style-type: disc;">
+                                        <li>The April after you leave your course</li>
+                                        <li>The April 4 years after the course started if you’re studying part-time and your course is longer than 4 years</li>
+                                        <li>April 2026 if you’re on Plan 5</li>
+                                    </ul>
+                                </div>
+                                <div class="course-details-field">
+                                    <label class="course-details-label" for="cdType">Full-time or Part-time?</label>
+                                    <select id="cdType" class="course-details-dropdown">
+                                        <option value="">Type</option>
+                                        <option value="full">Full-time</option>
+                                        <option value="part">Part-time</option>
+                                    </select>
+                                </div>
+                                <div class="course-details-field">
+                                    <label class="course-details-label" for="cdStartMonth">Course Start:</label>
+                                    <select id="cdStartMonth" class="course-details-dropdown">
+                                        <option value="">Month</option>
+                                    </select>
+                                    <select id="cdStartYear" class="course-details-dropdown">
+                                        <option value="">Year</option>
+                                    </select>
+                                </div>
+                                <div class="course-details-field">
+                                    <label class="course-details-label" for="cdEndMonth">Course End/Leave:</label>
+                                    <select id="cdEndMonth" class="course-details-dropdown">
+                                        <option value="">Month</option>
+                                    </select>
+                                    <select id="cdEndYear" class="course-details-dropdown">
+                                        <option value="">Year</option>
+                                    </select>
+                                </div>
+                                <div class="course-details-field" id="cdLongerThan4YearsContainer" style="display:none;">
+                                    <label class="course-details-label" for="cdLongerThan4Years">Is your course longer than 4 years?</label>
+                                    <select id="cdLongerThan4Years" class="course-details-dropdown">
+                                        <option value="">Select</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                                <div id="courseDetailsErrorContainer"></div>
+                                <div class="course-details-buttons">
+                                    <button class="small-pill-button" type="button" id="saveCourseDetailsBtn" onclick="handleSaveCourseDetails()">
+                                        Save Course Details
+                                    </button>
+                                    <button class="small-pill-button" type="button" id="clearCourseDetailsBtn" onclick="handleClearCourseDetails()">
+                                        Reset/Clear Course Details
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -361,11 +617,42 @@
                         <input type="text" id="interestRate" value="7.70" oninput="updateCalculators()"
                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 bg-white focus:border-pink-500 focus:ring-pink-500"
                                data-current-plan="P1">
+                        <!-- BEGIN VOLUNTARY OVERPAYMENT SPLIT UI -->
                         <div>
                             <label for="monthlyOverpayment" class="block text-sm font-medium text-gray-700">Monthly Voluntary Overpayment (£)</label>
                         </div>
-                        <input type="text" id="monthlyOverpayment" value="0" oninput="updateCalculators()"
-                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500">
+                        <input type="number" min="0" step="0.01" id="monthlyOverpayment" value="0" oninput="handleVoluntaryOverChange()" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring-pink-500">
+                        <div class="overpayment-slider-row" id="overpaymentSliderRow" style="display:none;">
+                            <label class="font-semibold text-gray-800 block mb-2" style="font-size:0.98em;">Split Overpayment between UG/PG:</label>
+                            <div class="flex items-center mb-2">
+                                <span class="text-gray-500 mr-2" id="overUGLabel" style="min-width:40px;">UG</span>
+                                <input type="range" min="0" max="100" step="1" id="overUGPctSlider" value="50" oninput="handleOverSliderChange()"
+                                       style="flex:1; margin:0 8px;">
+                                <span class="text-gray-500 ml-2" id="overPGLabel" style="min-width:40px;">PG</span>
+                            </div>
+                            <table class="voluntary-over-table">
+                                <tr>
+                                    <td><span class="text-gray-600">UG Split:</span></td>
+                                    <td>
+                                        <input type="number" min="0" step="0.01" id="overUGAmt" class="rounded border border-gray-300 px-2 py-1 text-sm" style="width: 80px;" oninput="handleOverUGAmtChange()">
+                                    </td>
+                                    <td>
+                                        <span id="overUGPctSpan">50</span>% 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-gray-600">PG Split:</span></td>
+                                    <td>
+                                        <input type="number" min="0" step="0.01" id="overPGAmt" class="rounded border border-gray-300 px-2 py-1 text-sm" style="width: 80px;" oninput="handleOverPGAmtChange()">
+                                    </td>
+                                    <td>
+                                        <span id="overPGPctSpan">50</span>% 
+                                    </td>
+                                </tr>
+                            </table>
+                            <span id="overSplitError" class="course-details-error" style="display:none;"></span>
+                        </div>
+                        <!-- END VOLUNTARY OVERPAYMENT SPLIT UI -->
                         <!-- PG Loan Dropdown YES/NO and Inputs -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1" for="pgEnabledDropdown">
@@ -391,8 +678,20 @@
                     </div>
                     <!-- Results -->
                     <div class="p-4 bg-white rounded-lg shadow-md border border-pink-200">
+                        <!-- Compounding Interest collapsible section -->
+                        <div id="compoundingInterestCard" class="collapsible-card mb-8" aria-expanded="true">
+                            <div class="collapsible-header" onclick="toggleCollapsible('compoundingInterestCard')">
+                                <span class="text-lg font-bold text-green-800">Compounding Interest</span>
+                                <svg class="collapsible-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7 6l5 4-5 4" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div id="compInterestBody" class="comp-interest-body-content">
+                                <!-- Dynamically filled by JS -->
+                            </div>
+                        </div>
                         <h4 class="text-lg font-semibold text-gray-800 mb-2">Loan Projections</h4>
-                        <div class="space-y-3 text-sm">
+                        <div class="space-y-3 text-sm" id="loanProjectionsResult">
                             <p class="flex justify-between">Estimated Monthly UG Repayment:
                                 <span id="monthlyUGPayment" class="font-bold text-pink-600">£0.00</span>
                             </p>
@@ -402,29 +701,35 @@
                             <p class="flex justify-between">Estimated Monthly Total Repayment:
                                 <span id="monthlyTotalPayment" class="font-bold text-pink-600">£0.00</span>
                             </p>
-                            <p class="flex justify-between border-t pt-2 font-semibold text-gray-800">Loan – Mandatory Payments Only</p>
-                            <p class="flex justify-between pl-4">Payoff Years: <span id="payoffYearsMandatory" class="font-medium text-gray-700">N/A</span></p>
+                            <p class="border-t pt-2 font-semibold text-gray-800">Loan – Mandatory Payments Only</p>
+                            <div class="pl-4">
+                                <p class="flex justify-between">UG paid off in: <span id="payoffYearsMandatoryUG" class="font-medium text-gray-700">N/A</span></p>
+                                <p class="flex justify-between">PG paid off in: <span id="payoffYearsMandatoryPG" class="font-medium text-gray-700">N/A</span></p>
+                            </div>
                             <p class="flex justify-between pl-4">Total Interest Paid: <span id="totalInterestMandatory" class="font-medium text-gray-700">£0.00</span></p>
-                            <p class="flex justify-between border-t pt-2 font-semibold text-gray-800">Loan – Mandatory + Voluntary Payments</p>
-                            <p class="flex justify-between pl-4">Payoff Years: <span id="payoffYearsCombined" class="font-medium text-gray-700">N/A</span></p>
+                            <p class="border-t pt-2 font-semibold text-gray-800">Loan – Mandatory + Voluntary Payments</p>
+                            <div class="pl-4">
+                                <p class="flex justify-between">UG paid off in: <span id="payoffYearsCombinedUG" class="font-medium text-gray-700">N/A</span></p>
+                                <p class="flex justify-between">PG paid off in: <span id="payoffYearsCombinedPG" class="font-medium text-gray-700">N/A</span></p>
+                            </div>
                             <p class="flex justify-between pl-4">Total Interest Paid: <span id="totalInterestCombined" class="font-medium text-gray-700">£0.00</span></p>
                             <div class="mt-3 border-t pt-2 text-xs text-gray-500">
                                 PG loan repayment is always in addition to UG loan, if applicable.<br>
                                 Loan write-off date: after the plan’s fixed term, if not paid off sooner.
                             </div>
+                            <div id="ugWriteOffWarning" class="course-details-warning" style="display:none;margin-top:0.6em;"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
         <!-- Footer: Feedback row, disclaimer, references -->
         <footer class="mt-12 pt-8 border-t border-gray-200">
             <div class="footer-row">
                 <button onclick="openModal('feedbackModal')"
-                        class="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        class="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                     </svg>
                     <span>Give Feedback</span>
                 </button>
@@ -446,22 +751,23 @@
                 </a>
             </div>
         </footer>
-
     </main>
     <!-- Modals -->
     <!-- Disclaimer Modal -->
+    <!-- ... (modals and scripts continue unchanged) ... -->
+    <!-- Disclaimer Modal -->
     <div id="disclaimerModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 transition-opacity" onclick="closeModal(event, 'disclaimerModal')">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 m-4 disclaimer-modal-content text-sm text-gray-700 relative" role="dialog" aria-modal="true" aria-labelledby="disclaimerModalTitle" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 m-4 disclaimer-modal-content text-sm text-gray-700 relative" role="dialog" aria-modal="true" aria-labelledby="disclaimerModalTitle">
             <h3 id="disclaimerModalTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Important Disclaimers</h3>
             <div class="mb-6 space-y-3">
                 <p>
                     <strong>This calculator provides approximate estimates only.</strong> UK tax bands, NI, and student loan rates may change without notice. Always consult the <a href="https://www.gov.uk/repaying-your-student-loan" class="underline text-blue-600" target="_blank" rel="noopener">GOV.UK</a> for the latest information before making decisions.
                 </p>
                 <p>
-                    All calculations are illustrative and do not constitute financial advice, a lending offer, or a definitive tax assessment. For advice tailored to your situation, consult a qualified UK financial advisor or tax specialist.
+                    All calculations are illustrative and do not constitute financial advice, a lending offer, or a definitive tax assessment. For advice tailored to your situation, consult a qualified financial advisor.
                 </p>
                 <p>
-                    <strong>Student loan repayments:</strong> SLC/HMRC officially calculate deductions based on your "NICable pay" (pay subject to Class 1 National Insurance). This includes reductions for salary sacrifice schemes (such as pension sacrifice), so your student loan repayments may decrease if you participate in these schemes.
+                    <strong>Student loan repayments:</strong> SLC/HMRC officially calculate deductions based on your "NICable pay" (pay subject to Class 1 National Insurance). This includes reductions for salary sacrifice pension contributions if your employer participates.
                 </p>
                 <ul class="list-disc ml-5">
                     <li>Pension and national insurance savings reflect 2025/26 rates and bands and may differ from your payroll's final figures.</li>
@@ -521,7 +827,7 @@
                 <div>
                     <label for="feedbackComments" class="block text-sm font-medium text-gray-700">Comments / Suggestions</label>
                     <span class="field-required">required</span>
-                    <textarea id="feedbackComments" name="entry.326955045" rows="4" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tell us what you think or suggest improvements..."></textarea>
+                    <textarea id="feedbackComments" name="entry.326955045" rows="4" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your feedback..."></textarea>
                 </div>
                 <div class="mt-6 flex justify-end space-x-3">
                     <button type="button" onclick="handleFeedbackCancel()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Cancel</button>
@@ -531,373 +837,849 @@
             </form>
         </div>
     </div>
-
     <script>
-        // --- Loan Plans with Threshold and Tooltip ---
-        const LOAN_PLANS = {
-            'P1': {
-                name: 'Plan 1',
-                threshold: 24990,
-                rate: 0.09,
-                defaultRate: 7.70,
-                writeOff: 25,
-                tooltip: `
-                    <div class="tooltip-header">
-                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
-                        Plan 1
-                    </div>
-                    <div><strong>Repayment threshold:</strong> £24,990</div>
-                    <div><strong>Write-off:</strong> Cancelled after 25 years from the April you were first due to start repaying.</div>
-                `
-            },
-            'P2': {
-                name: 'Plan 2',
-                threshold: 28470,
-                rate: 0.09,
-                defaultRate: 7.70,
-                writeOff: 30,
-                tooltip: `
-                    <div class="tooltip-header">
-                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
-                        Plan 2
-                    </div>
-                    <div><strong>Repayment threshold:</strong> £28,470</div>
-                    <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>
-                `
-            },
-            'P4': {
-                name: 'Plan 4',
-                threshold: 31935,
-                rate: 0.09,
-                defaultRate: 7.70,
-                writeOff: 30,
-                tooltip: `
-                    <div class="tooltip-header">
-                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
-                        Plan 4
-                    </div>
-                    <div><strong>Repayment threshold:</strong> £31,935</div>
-                    <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>
-                `
-            },
-            'P5': {
-                name: 'Plan 5',
-                threshold: 25000,
-                rate: 0.09,
-                defaultRate: 7.70,
-                writeOff: 40,
-                tooltip: `
-                    <div class="tooltip-header">
-                        <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="#4f46e5"/></svg>
-                        Plan 5
-                    </div>
-                    <div><strong>Repayment threshold:</strong> £25,000</div>
-                    <div><strong>Write-off:</strong> Cancelled after 40 years from the April you were first due to start repaying.</div>
-                `
-            }
-        };
-        const PG_PLAN = { name: 'Postgraduate Loan', threshold: 21000, rate: 0.06, defaultRate: 7.70, writeOff: 30 };
-
-        function togglePlanTooltipBox() {
-            const group = document.getElementById('ugPlanTooltipCard');
-            if (group.style.display === 'block') {
-                group.style.display = 'none';
-            } else {
-                const planType = document.getElementById('ugPlanSelect').value;
-                group.innerHTML = LOAN_PLANS[planType] ? LOAN_PLANS[planType].tooltip : '';
-                group.style.display = 'block';
-            }
+    // --- JS CODE AS SENT IN PREVIOUS RESPONSES --->
+// --------- Initial data for month/year selectors ----------
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+function fillMonthYearDropdowns() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    function fillDropdown(selectId, arr, label) {
+        let el = document.getElementById(selectId);
+        el.innerHTML = `<option value="">${label}</option>`;
+        for (let i = 0; i < arr.length; ++i) {
+            el.innerHTML += `<option value="${i + 1}">${arr[i]}</option>`;
         }
-        function updatePlanInfo() {
-            document.getElementById('ugPlanTooltipCard').style.display="none";
+    }
+    fillDropdown("cdStartMonth", monthNames, "Month");
+    fillDropdown("cdEndMonth", monthNames, "Month");
+    let minYear = 1998, maxYear = currentYear + 5;
+    function fillYearDropdown(selectId, label) {
+        let el = document.getElementById(selectId);
+        el.innerHTML = `<option value="">${label}</option>`;
+        for (let y = minYear; y <= maxYear; ++y) {
+            el.innerHTML += `<option value="${y}">${y}</option>`;
         }
-        function updatePGFields() {
-            var show = document.getElementById('pgEnabledDropdown').value === "yes";
-            document.getElementById('pgFieldsContainer').style.display = show ? "block" : "none";
-            updateCalculators();
+    }
+    fillYearDropdown("cdStartYear", "Year");
+    fillYearDropdown("cdEndYear", "Year");
+}
+// --------- Loan Plans Definition ----------
+const LOAN_PLANS = {
+    'P1': {
+        name: 'Plan 1', threshold: 24990, rate: 0.09, defaultRate: 7.70, writeOff: 25,
+        tooltip:
+            `<div class="tooltip-header">
+                <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="8" x2="12" y2="13" stroke="#4f46e5" stroke-width="2"/><circle cx="12" cy="16" r="1.2" fill="#4f46e5"/></svg>
+                Plan 1
+            </div>
+            <div><strong>Repayment threshold:</strong> £24,990</div>
+            <div><strong>Write-off:</strong> Cancelled after 25 years from the April you were first due to start repaying.</div>`
+    },
+    'P2': {
+        name: 'Plan 2', threshold: 28470, rate: 0.09, defaultRate: 7.70, writeOff: 30,
+        tooltip:
+            `<div class="tooltip-header">
+                <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="8" x2="12" y2="13" stroke="#4f46e5" stroke-width="2"/><circle cx="12" cy="16" r="1.2" fill="#4f46e5"/></svg>
+                Plan 2
+            </div>
+            <div><strong>Repayment threshold:</strong> £28,470</div>
+            <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>`
+    },
+    'P4': {
+        name: 'Plan 4', threshold: 31935, rate: 0.09, defaultRate: 7.70, writeOff: 30,
+        tooltip:
+            `<div class="tooltip-header">
+                <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="8" x2="12" y2="13" stroke="#4f46e5" stroke-width="2"/><circle cx="12" cy="16" r="1.2" fill="#4f46e5"/></svg>
+                Plan 4
+            </div>
+            <div><strong>Repayment threshold:</strong> £31,935</div>
+            <div><strong>Write-off:</strong> Cancelled after 30 years from the April you were first due to start repaying.</div>`
+    },
+    'P5': {
+        name: 'Plan 5', threshold: 25000, rate: 0.09, defaultRate: 7.70, writeOff: 40,
+        tooltip:
+            `<div class="tooltip-header">
+                <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" stroke="currentColor" fill="#eef2ff"/><line x1="12" y1="8" x2="12" y2="13" stroke="#4f46e5" stroke-width="2"/><circle cx="12" cy="16" r="1.2" fill="#4f46e5"/></svg>
+                Plan 5
+            </div>
+            <div><strong>Repayment threshold:</strong> £25,000</div>
+            <div><strong>Write-off:</strong> Cancelled after 40 years from April 2026 (or the April after you leave your course, whichever is later).</div>`
+    }
+};
+const PG_PLAN = { name: 'Postgraduate Loan', threshold: 21000, rate: 0.06, defaultRate: 7.70, writeOff: 30 };
+
+// --------- Utility Functions ----------
+function parseInput(val) { return Math.max(0, parseFloat(String(val).replace(/[^0-9.]/g, '')) || 0); }
+function formatCurrency(val) { return "£" + (val || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+// --------- Compounding Interest Calculation ----------
+function getDaysInMonth(year, month) {
+    return new Date(year, month+1, 0).getDate();
+}
+function isLeapYear(year) {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+}
+function compoundInterestAmount(principal, annualRate, days, baseDaysInYear) {
+    if (principal <= 0 || annualRate <= 0 || days <= 0) return 0;
+    const ratePerDay = annualRate/100/baseDaysInYear;
+    const amount = principal * (Math.pow((1 + ratePerDay), days) - 1);
+    return amount;
+}
+function getCompoundingInterestIntervals(principal, annualRate) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const baseDaysInYear = isLeapYear(year) ? 366 : 365;
+    const daysInMonth = getDaysInMonth(year, month);
+
+    // Daily
+    const dayInterest = compoundInterestAmount(principal, annualRate, 1, baseDaysInYear);
+    // Weekly
+    const weekInterest = compoundInterestAmount(principal, annualRate, 7, baseDaysInYear);
+    // Monthly
+    const monthInterest = compoundInterestAmount(principal, annualRate, daysInMonth, baseDaysInYear);
+    // Yearly
+    const yearInterest = compoundInterestAmount(principal, annualRate, baseDaysInYear, baseDaysInYear);
+
+    return {
+        day: { amount: dayInterest, days: 1 },
+        week: { amount: weekInterest, days: 7 },
+        month: { amount: monthInterest, days: daysInMonth },
+        year: { amount: yearInterest, days: baseDaysInYear }
+    };
+}
+
+// --------- Income Tax / NI / SLC Loan Repayments ----------
+function calculateIncomeTax(taxableSalary) {
+    let tax = 0; let effectivePA = 12570;
+    if (taxableSalary > 100000) effectivePA = Math.max(0, effectivePA - ((taxableSalary - 100000) / 2));
+    let incomeTaxable = Math.max(0, taxableSalary - effectivePA);
+    if (incomeTaxable > 125140) { tax += (incomeTaxable - 125140) * 0.45; incomeTaxable = 125140; }
+    if (incomeTaxable > 53690) { tax += (incomeTaxable - 53690) * 0.40; incomeTaxable = 53690; }
+    tax += incomeTaxable * 0.20; return tax;
+}
+function calculateNationalInsurance(taxableSalary) {
+    let ni = 0;
+    const income = Math.max(0, taxableSalary - 12570);
+    if (income > 0) {
+        const inMainBand = Math.min(income, 53690 - 12570);
+        ni += inMainBand * 0.08;
+        if (taxableSalary > 53690) {
+            ni += (taxableSalary - 53690) * 0.02;
         }
+    }
+    return ni;
+}
+function calculateStudentLoanRepayment(baseSalary, planType) {
+    const plan = LOAN_PLANS[planType];
+    if (!plan) return 0;
+    const incomeAbove = Math.max(0, baseSalary - plan.threshold);
+    return incomeAbove * plan.rate;
+}
+function calculatePGLoanRepayment(baseSalary) {
+    const incomeAbove = Math.max(0, baseSalary - PG_PLAN.threshold);
+    return incomeAbove * PG_PLAN.rate;
+}
 
-        function parseInput(val) { return Math.max(0, parseFloat(String(val).replace(/[^0-9.]/g, '')) || 0); }
-        function formatCurrency(val) { return "£" + (val || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-        function calculateIncomeTax(taxableSalary) {
-            let tax = 0; let effectivePA = 12570;
-            if (taxableSalary > 100000) effectivePA = Math.max(0, effectivePA - ((taxableSalary - 100000) / 2));
-            let incomeTaxable = Math.max(0, taxableSalary - effectivePA);
-            if (incomeTaxable > 125140) { tax += (incomeTaxable - 125140) * 0.45; incomeTaxable = 125140; }
-            if (incomeTaxable > 53690) { tax += (incomeTaxable - 53690) * 0.40; incomeTaxable = 53690; }
-            tax += incomeTaxable * 0.20; return tax;
+function projectLoanPayoffSingle(initialBalance, monthlyMandatory, monthlyVoluntary, annualInterestRate, writeOffYears) {
+    let balance = initialBalance;
+    let paidInterest = 0;
+    let months = 0;
+    const monthlyRate = (annualInterestRate/100)/12;
+    const maxMonths = writeOffYears*12;
+    const currentYear = new Date().getFullYear();
+    if (balance <= 0) return { years: "Paid off", finishMonth: months, totalInterest: 0 };
+    let monthlyPay = (monthlyMandatory || 0) + (monthlyVoluntary || 0);
+    if (monthlyPay <= 0 || monthlyPay < balance * monthlyRate) {
+        return { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, finishMonth: maxMonths, totalInterest: 0 };
+    }
+    while (balance > 0.01 && months < maxMonths) {
+        const interestMonth = balance * monthlyRate;
+        paidInterest += interestMonth;
+        let payment = Math.min(monthlyPay, balance + interestMonth);
+        balance += interestMonth - payment;
+        months++;
+    }
+    const payoffYears = (months/12).toFixed(2);
+    return balance <= 0
+        ? { years: `${payoffYears}`, finishMonth: months, totalInterest: paidInterest }
+        : { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, finishMonth: maxMonths, totalInterest: paidInterest };
+}
+// --------- Voluntary Overpayment Split Logic ---------
+let overUGAmt = null;
+let overPGAmt = null;
+let overUGPct = 0.5;
+let overPGPct = 0.5;
+
+function handleVoluntaryOverChange() {
+    let overEl = document.getElementById("monthlyOverpayment");
+    let val = parseFloat(overEl.value) || 0;
+
+    let pgEnabled = document.getElementById('pgEnabledDropdown').value === "yes";
+    let sliderRow = document.getElementById("overpaymentSliderRow");
+    let ugAmtEl = document.getElementById("overUGAmt");
+    let pgAmtEl = document.getElementById("overPGAmt");
+    let sliderEl = document.getElementById("overUGPctSlider");
+    let ugPctSpan = document.getElementById("overUGPctSpan");
+    let pgPctSpan = document.getElementById("overPGPctSpan");
+    let errorEl = document.getElementById("overSplitError");
+    errorEl.style.display = "none";
+
+    if (val <= 0) {
+        ugAmtEl.value = "0";
+        pgAmtEl.value = "0";
+        sliderEl.value = 50;
+        ugPctSpan.textContent = "50";
+        pgPctSpan.textContent = "50";
+        sliderRow.style.opacity = 0.4;
+        ugAmtEl.disabled = true;
+        pgAmtEl.disabled = true;
+        sliderEl.disabled = true;
+        ugPctSpan.style.opacity = 0.5;
+        pgPctSpan.style.opacity = 0.5;
+        ugAmtEl.style.opacity = 0.5;
+        pgAmtEl.style.opacity = 0.5;
+        return;
+    } else {
+        ugAmtEl.disabled = false;
+        pgAmtEl.disabled = false;
+        sliderEl.disabled = false;
+        ugPctSpan.style.opacity = 1;
+        pgPctSpan.style.opacity = 1;
+        ugAmtEl.style.opacity = 1;
+        pgAmtEl.style.opacity = 1;
+        sliderRow.style.opacity = 1;
+    }
+    if (pgEnabled) {
+        sliderRow.style.display = "";
+        let ugVal = parseFloat(ugAmtEl.value);
+        let pgVal = parseFloat(pgAmtEl.value);
+        if (isNaN(ugVal) && isNaN(pgVal)) {
+            ugVal = pgVal = val/2;
         }
-        function calculateNationalInsurance(taxableSalary) {
-            let ni = 0;
-            const income = Math.max(0, taxableSalary - 12570);
-            if (income > 0) {
-                const inMainBand = Math.min(income, 53690 - 12570);
-                ni += inMainBand * 0.08;
-                if (taxableSalary > 53690) {
-                    ni += (taxableSalary - 53690) * 0.02;
-                }
-            }
-            return ni;
+        if (isNaN(ugVal)) ugVal = val/2;
+        if (isNaN(pgVal)) pgVal = val/2;
+        if (!ugAmtEl.hasAttribute("data-edited") && !pgAmtEl.hasAttribute("data-edited")) {
+            ugVal = val/2;
+            pgVal = val/2;
         }
-        function calculateStudentLoanRepayment(baseSalary, planType) {
-            const plan = LOAN_PLANS[planType];
-            if (!plan) return 0;
-            const incomeAbove = Math.max(0, baseSalary - plan.threshold);
-            return incomeAbove * plan.rate;
+        // Ensure valid split
+        if (ugVal + pgVal > val) {
+            let prev = ugAmtEl.hasAttribute("data-edited") ? "ug" : (pgAmtEl.hasAttribute("data-edited") ? "pg" : null);
+            if (prev === "ug") ugVal = val, pgVal = 0;
+            else if (prev === "pg") pgVal = val, ugVal = 0;
+            else ugVal = pgVal = val/2;
         }
-        function calculatePGLoanRepayment(baseSalary) {
-            const incomeAbove = Math.max(0, baseSalary - PG_PLAN.threshold);
-            return incomeAbove * PG_PLAN.rate;
-        }
-        function projectLoanPayoff(initialBalance, monthlyPayment, annualInterestRate, writeOffYears) {
-            let balance = initialBalance, paidInterest = 0, months = 0;
-            const monthlyRate = (annualInterestRate/100)/12;
-            const maxMonths = writeOffYears*12;
-            const currentYear = new Date().getFullYear();
-            if (balance <= 0) return { years: "Paid off", totalInterest: 0 };
-            if (monthlyPayment <= 0 || monthlyPayment < balance * monthlyRate)
-                return { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, totalInterest: 0 };
-            while (balance > 0 && months < maxMonths) {
-                const interestMonth = balance * monthlyRate;
-                paidInterest += interestMonth;
-                const payment = Math.min(monthlyPayment, balance + interestMonth);
-                balance += interestMonth - payment;
-                months++;
-            }
-            const payoffYears = (months/12).toFixed(1);
-            return balance <= 0
-                ? { years: `${payoffYears}`, totalInterest: paidInterest }
-                : { years: `${writeOffYears} (Written Off in ${currentYear+writeOffYears})`, totalInterest: paidInterest };
-        }
+        overUGAmt = ugVal; overPGAmt = pgVal;
+        overUGPct = val ? (ugVal / val) : 0;
+        overPGPct = val ? (pgVal / val) : 0;
+        sliderEl.value = Math.round(overUGPct*100);
+        ugAmtEl.value = overUGAmt.toFixed(2);
+        pgAmtEl.value = overPGAmt.toFixed(2);
+        ugPctSpan.textContent = Math.round(overUGPct*100);
+        pgPctSpan.textContent = Math.round(overPGPct*100);
+        ugAmtEl.removeAttribute("data-edited");
+        pgAmtEl.removeAttribute("data-edited");
+    } else {
+        sliderRow.style.display = "none";
+    }
+    updateCalculators();
+}
+function handleOverSliderChange() {
+    let val = parseFloat(document.getElementById("monthlyOverpayment").value) || 0;
+    let ugPct = parseInt(document.getElementById("overUGPctSlider").value, 10) || 0;
+    let pgPct = 100-ugPct;
+    overUGAmt = val * ugPct / 100.0;
+    overPGAmt = val * pgPct / 100.0;
+    document.getElementById("overUGAmt").value = overUGAmt.toFixed(2);
+    document.getElementById("overPGAmt").value = overPGAmt.toFixed(2);
+    document.getElementById("overUGPctSpan").textContent = ugPct;
+    document.getElementById("overPGPctSpan").textContent = pgPct;
+    document.getElementById("overUGAmt").removeAttribute("data-edited");
+    document.getElementById("overPGAmt").removeAttribute("data-edited");
+    updateCalculators();
+}
+function handleOverUGAmtChange() {
+    let val = parseFloat(document.getElementById("monthlyOverpayment").value) || 0;
+    let ugAmt = parseFloat(document.getElementById("overUGAmt").value) || 0;
+    if (ugAmt > val) ugAmt = val;
+    overUGAmt = ugAmt;
+    overUGPct = val ? (ugAmt/val) : 0;
+    overPGAmt = val - ugAmt;
+    overPGPct = val ? (overPGAmt/val) : 0;
+    document.getElementById("overPGAmt").value = overPGAmt.toFixed(2);
+    document.getElementById("overUGPctSlider").value = Math.round(overUGPct*100);
+    document.getElementById("overUGPctSpan").textContent = Math.round(overUGPct*100);
+    document.getElementById("overPGPctSpan").textContent = Math.round(overPGPct*100);
+    document.getElementById("overUGAmt").setAttribute("data-edited", "true");
+    document.getElementById("overPGAmt").removeAttribute("data-edited");
+    updateCalculators();
+}
+function handleOverPGAmtChange() {
+    let val = parseFloat(document.getElementById("monthlyOverpayment").value) || 0;
+    let pgAmt = parseFloat(document.getElementById("overPGAmt").value) || 0;
+    if (pgAmt > val) pgAmt = val;
+    overPGAmt = pgAmt;
+    overPGPct = val ? (pgAmt/val) : 0;
+    overUGAmt = val - pgAmt;
+    overUGPct = val ? (overUGAmt/val) : 0;
+    document.getElementById("overUGAmt").value = overUGAmt.toFixed(2);
+    document.getElementById("overUGPctSlider").value = Math.round(overUGPct*100);
+    document.getElementById("overUGPctSpan").textContent = Math.round(overUGPct*100);
+    document.getElementById("overPGPctSpan").textContent = Math.round(overPGPct*100);
+    document.getElementById("overPGAmt").setAttribute("data-edited", "true");
+    document.getElementById("overUGAmt").removeAttribute("data-edited");
+    updateCalculators();
+}
 
-        function updateCalculators() {
-            const origSalary = parseInput(document.getElementById('annualSalary').value);
-            const empPct = parseInput(document.getElementById('employeeValue').value)/100;
-            const erPct = parseInput(document.getElementById('employerValue').value)/100;
-            const isSS = document.getElementById('salarySacrificeToggle').checked;
-            const annualEmployeeContribution = origSalary * empPct;
-            const annualEmployerContribution = origSalary * erPct;
-            const annualTotalContribution = annualEmployeeContribution + annualEmployerContribution;
-            const sacrificeAmt = isSS ? annualEmployeeContribution : 0;
-            const adjustedSalary = origSalary - sacrificeAmt;
-            
-            let ugPlanType = document.getElementById('ugPlanSelect').value || 'P1';
-            let ugBalance = parseInput(document.getElementById('currentBalance').value);
-            let ugInterestInput = document.getElementById('interestRate');
-            if (ugInterestInput.dataset.currentPlan !== ugPlanType) {
-                ugInterestInput.value = LOAN_PLANS[ugPlanType].defaultRate.toFixed(2);
-                ugInterestInput.dataset.currentPlan = ugPlanType;
-            }
-            let ugInterest = parseInput(ugInterestInput.value);
-            let ugWriteOff = LOAN_PLANS[ugPlanType].writeOff;
-            let monthlyOverpay = parseInput(document.getElementById('monthlyOverpayment').value);
-            
-            let pgEnabled = document.getElementById('pgEnabledDropdown').value === "yes";
-            let pgBalance = pgEnabled ? parseInput(document.getElementById('pgBalance').value) : 0;
-            let pgInterest = pgEnabled ? parseInput(document.getElementById('pgInterest').value) : PG_PLAN.defaultRate;
+// --------- Compounding Interest Card Expand/Collapse ----------
+function toggleCollapsible(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    const expanded = card.getAttribute('aria-expanded') === "true";
+    card.setAttribute('aria-expanded', (!expanded).toString());
+    // The content is always present, CSS toggles it's display property by aria-expanded
+}
 
-            const annualTax = calculateIncomeTax(adjustedSalary);
-            const annualNI = calculateNationalInsurance(adjustedSalary);
-            const niSaving = isSS ? calculateNationalInsurance(origSalary) - annualNI : 0;
-            let annualUGSLR = calculateStudentLoanRepayment(adjustedSalary, ugPlanType);
-            let annualPGSLR = pgEnabled ? calculatePGLoanRepayment(adjustedSalary) : 0;
-            let annualSLR = annualUGSLR + annualPGSLR;
-            const totalAnnualDeductions = annualTax + annualNI + annualSLR + annualEmployeeContribution;
-            const annualNetPay = origSalary - totalAnnualDeductions + niSaving;
-            const monthlyNetPay = annualNetPay/12;
-            const monthlyTotalContribution = annualTotalContribution/12;
-            const monthlyEmployeeCost = isSS 
-                ? (annualEmployeeContribution - niSaving)/12
-                : annualEmployeeContribution/12;
-            const monthlyUGPayment = annualUGSLR/12;
-            const monthlyPGPayment = annualPGSLR/12;
-            const monthlyTotalLoanPayment = monthlyUGPayment + monthlyPGPayment;
-            const mandatoryUGPayoff = projectLoanPayoff(ugBalance, monthlyUGPayment, ugInterest, ugWriteOff);
-            const combinedUGPayoff = projectLoanPayoff(ugBalance, monthlyUGPayment + monthlyOverpay, ugInterest, ugWriteOff);
-
-            const adjustedGrossRow = document.getElementById('adjustedGrossRow');
-            if (isSS && sacrificeAmt > 0) {
-                adjustedGrossRow.style.display = "";
-                document.getElementById('adjustedGrossSalary').textContent = formatCurrency(adjustedSalary);
-            } else {
-                adjustedGrossRow.style.display = "none";
-            }
-            document.getElementById('monthlyNetPay').textContent = formatCurrency(monthlyNetPay);
-            document.getElementById('annualNetPay').textContent = formatCurrency(annualNetPay);
-            document.getElementById('annualDeductions').textContent = formatCurrency(totalAnnualDeductions);
-
-            document.getElementById('monthlyTotalContribution').textContent = formatCurrency(monthlyTotalContribution);
-            document.getElementById('monthlyEmployeeCost').textContent = formatCurrency(monthlyEmployeeCost);
-            document.getElementById('monthlyEmployerContribution').textContent = formatCurrency(annualEmployerContribution/12);
-            document.getElementById('annualNISaving').textContent = formatCurrency(niSaving);
-
-            const adjustedSalaryContainer = document.getElementById('adjustedSalaryContainer');
-            if (isSS && sacrificeAmt > 0) {
-                adjustedSalaryContainer.classList.remove('hidden');
-                document.getElementById('adjustedTaxableSalary').textContent = formatCurrency(adjustedSalary);
-            } else {
-                adjustedSalaryContainer.classList.add('hidden');
-            }
-
-            document.getElementById("monthlyUGPayment").textContent = formatCurrency(monthlyUGPayment);
-            document.getElementById("monthlyPGPayment").textContent = formatCurrency(monthlyPGPayment);
-            document.getElementById("monthlyTotalPayment").textContent = formatCurrency(monthlyTotalLoanPayment);
-
-            document.getElementById("payoffYearsMandatory").textContent = mandatoryUGPayoff.years;
-            document.getElementById("totalInterestMandatory").textContent = formatCurrency(mandatoryUGPayoff.totalInterest);
-            document.getElementById("payoffYearsCombined").textContent = combinedUGPayoff.years;
-            document.getElementById("totalInterestCombined").textContent = formatCurrency(combinedUGPayoff.totalInterest);
-        }
-
-        // --- Tabs and plan info ---
-        function initTabs() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabGroup = button.getAttribute('data-tab-group');
-                    const targetPanelId = button.getAttribute('aria-controls');
-                    document.querySelectorAll(`.tab-button[data-tab-group="${tabGroup}"]`).forEach(btn => {
-                        btn.classList.remove('active','text-indigo-700','border-indigo-700');
-                        btn.classList.add('text-gray-600','border-transparent');
-                        btn.setAttribute('aria-selected','false');
-                        btn.setAttribute('tabindex','-1');
-                    });
-                    document.querySelectorAll(`.tab-panel[data-tab-group="${tabGroup}"]`).forEach(panel => {
-                        panel.classList.add('hidden');
-                    });
-                    button.classList.add('active','text-indigo-700','border-indigo-700');
-                    button.classList.remove('text-gray-600','border-transparent');
-                    button.setAttribute('aria-selected','true');
-                    button.setAttribute('tabindex','0');
-                    document.getElementById(targetPanelId).classList.remove('hidden');
-                });
+// --------- Tab UI Logic ----------
+function initTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabGroup = button.getAttribute('data-tab-group');
+            const targetPanelId = button.getAttribute('aria-controls');
+            document.querySelectorAll(`.tab-button[data-tab-group="${tabGroup}"]`).forEach(btn => {
+                btn.classList.remove('active','text-indigo-700','border-indigo-700');
+                btn.classList.add('text-gray-600','border-transparent');
+                btn.setAttribute('aria-selected','false');
+                btn.setAttribute('tabindex','-1');
             });
-            if (tabButtons.length > 0) tabButtons[0].click();
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            initTabs();
-            updatePGFields();
-            updatePlanInfo();
-            updateCalculators();
-
-            var ratingLabels = document.querySelectorAll('.rating-label');
-            ratingLabels.forEach(function(label, idx) {
-                var input = label.querySelector('input[type="radio"]');
-                label.addEventListener('click', function() {
-                    input.checked = true;
-                    highlightStars(idx+1);
-                    document.getElementById('ratingError').textContent = '';
-                    document.getElementById('ratingError').style.display = 'none';
-                });
-                label.addEventListener('keydown', function(e) {
-                    if (e.key === ' ' || e.key === 'Enter') {
-                        e.preventDefault();
-                        input.checked = true;
-                        highlightStars(idx+1);
-                        document.getElementById('ratingError').textContent = '';
-                        document.getElementById('ratingError').style.display = 'none';
-                    }
-                });
+            document.querySelectorAll(`.tab-panel[data-tab-group="${tabGroup}"]`).forEach(panel => {
+                panel.classList.add('hidden');
             });
-
-            document.getElementById('submitFeedbackBtn').addEventListener('click', function() {
-                handleSubmitFeedback();
-            });
+            button.classList.add('active','text-indigo-700','border-indigo-700');
+            button.classList.remove('text-gray-600','border-transparent');
+            button.setAttribute('aria-selected','true');
+            button.setAttribute('tabindex','0');
+            document.getElementById(targetPanelId).classList.remove('hidden');
         });
+    });
+    if (tabButtons.length > 0) tabButtons[0].click();
+}
 
-        function highlightStars(n) {
-            var stars = document.querySelectorAll('.rating-label');
-            for (let i=0; i < stars.length; ++i) {
-                if (i < n) stars[i].classList.add('selected');
-                else stars[i].classList.remove('selected');
-            }
-        }
-        function getSelectedRating() {
-            var radios = document.querySelectorAll('.rating-label input[type="radio"]');
-            for (const radio of radios) {
-                if (radio.checked) return radio.value;
-            }
-            return '';
-        }
-        function resetFeedbackForm() {
-            highlightStars(0);
-            var radios = document.querySelectorAll('.rating-label input[type="radio"]');
-            radios.forEach(r => r.checked = false);
-            document.getElementById('feedbackType').value = '';
-            document.getElementById('feedbackComments').value = '';
+// --------- Modal Logic ----------
+function openModal(modalId) {
+    let m = document.getElementById(modalId);
+    m.classList.remove('hidden');
+    m.setAttribute('aria-hidden','false');
+    if (modalId === 'feedbackModal') resetFeedbackForm();
+}
+function closeModal(event, modalId) {
+    const modal = document.getElementById(modalId);
+    if (event == null || event.target === modal) {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden','true');
+        if (modalId === 'feedbackModal') resetFeedbackForm();
+    }
+}
+
+function togglePlanTooltipBox() {
+    const card = document.getElementById('ugPlanTooltipCard');
+    if (card.style.display === 'block') {
+        card.style.display = 'none';
+    } else {
+        const planType = document.getElementById('ugPlanSelect').value;
+        let content = LOAN_PLANS[planType] ? LOAN_PLANS[planType].tooltip : '';
+        content += `<button class="pill-button plan-tooltip-close" onclick="closeUGPlanTooltip()" tabindex="0">Close</button>`;
+        card.innerHTML = content;
+        card.style.display = 'block';
+    }
+}
+function closeUGPlanTooltip() {
+    document.getElementById('ugPlanTooltipCard').style.display="none";
+}
+function updatePlanInfo() {
+    document.getElementById('ugPlanTooltipCard').style.display="none";
+}
+function updatePGFields() {
+    var show = document.getElementById('pgEnabledDropdown').value === "yes";
+    document.getElementById('pgFieldsContainer').style.display = show ? "block" : "none";
+    let sliderRow = document.getElementById("overpaymentSliderRow");
+    let overVal = parseFloat(document.getElementById("monthlyOverpayment").value) || 0;
+    sliderRow.style.display = show ? "" : "none";
+    handleVoluntaryOverChange();
+    updateCalculators();
+}
+function updateCourseDetailsUI() {
+    let type = document.getElementById('cdType').value;
+    document.getElementById('cdLongerThan4YearsContainer').style.display = (type === "part") ? "" : "none";
+}
+
+// --------- Initialize Everything On DOM Ready ----------
+document.addEventListener("DOMContentLoaded", function() {
+    initTabs();
+    updatePGFields();
+    updatePlanInfo();
+    updateCalculators();
+    fillMonthYearDropdowns();
+    document.getElementById('compoundingInterestCard').setAttribute('aria-expanded', 'true');
+    document.getElementById('cdType').addEventListener("change", updateCourseDetailsUI);
+    document.getElementById('cdStartYear').addEventListener("change", updateCourseDetailsUI);
+    document.getElementById('cdEndYear').addEventListener("change", updateCourseDetailsUI);
+    document.getElementById("monthlyOverpayment").addEventListener("input", handleVoluntaryOverChange);
+    document.getElementById("pgEnabledDropdown").addEventListener("change", updatePGFields);
+
+    // Feedback/rating UI setup
+    var ratingLabels = document.querySelectorAll('.rating-label');
+    ratingLabels.forEach(function(label, idx) {
+        var input = label.querySelector('input[type="radio"]');
+        label.addEventListener('click', function() {
+            input.checked = true;
+            highlightStars(idx+1);
             document.getElementById('ratingError').textContent = '';
             document.getElementById('ratingError').style.display = 'none';
-            var statusEl = document.getElementById('feedbackStatus');
-            statusEl.textContent = '';
-            statusEl.className = 'feedback-status-message';
-        }
-        function handleFeedbackCancel() {
-            resetFeedbackForm();
-            closeModal(null, 'feedbackModal');
-        }
-        function handleSubmitFeedback() {
-            var rating = getSelectedRating();
-            var feedbackType = document.getElementById('feedbackType').value;
-            var comments = document.getElementById('feedbackComments').value.trim();
-            var statusEl = document.getElementById('feedbackStatus');
-            var ratingError = document.getElementById('ratingError');
-            statusEl.className = 'feedback-status-message';
-            statusEl.textContent = '';
-            ratingError.textContent = '';
-            ratingError.style.display = 'none';
-
-            if (!rating) {
-                ratingError.textContent = 'Please select a star rating before submitting.';
-                ratingError.style.display = 'block';
-                return;
+        });
+        label.addEventListener('keydown', function(e) {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                input.checked = true;
+                highlightStars(idx+1);
+                document.getElementById('ratingError').textContent = '';
+                document.getElementById('ratingError').style.display = 'none';
             }
-            if (!feedbackType) {
-                statusEl.textContent = 'Please select a Feedback Type before submitting.';
-                statusEl.classList.add('feedback-status-error');
-                return;
-            }
-            if (!comments) {
-                statusEl.textContent = 'Please provide comments or suggestions before submitting.';
-                statusEl.classList.add('feedback-status-error');
-                return;
-            }
+        });
+    });
+    document.getElementById('submitFeedbackBtn').addEventListener('click', function() {
+        handleSubmitFeedback();
+    });
+});
 
-            var formData = new FormData();
-            formData.append('entry.1696159737', rating);
-            formData.append('entry.1591633300', feedbackType);
-            formData.append('entry.326955045', comments);
+// --------- Feedback/Rating Logic ----------
+function highlightStars(n) {
+    var stars = document.querySelectorAll('.rating-label');
+    for (let i=0; i < stars.length; ++i) {
+        if (i < n) stars[i].classList.add('selected');
+        else stars[i].classList.remove('selected');
+    }
+}
+function getSelectedRating() {
+    var radios = document.querySelectorAll('.rating-label input[type="radio"]');
+    for (const radio of radios) {
+        if (radio.checked) return radio.value;
+    }
+    return '';
+}
+function resetFeedbackForm() {
+    highlightStars(0);
+    var radios = document.querySelectorAll('.rating-label input[type="radio"]');
+    radios.forEach(r => r.checked = false);
+    document.getElementById('feedbackType').value = '';
+    document.getElementById('feedbackComments').value = '';
+    document.getElementById('ratingError').textContent = '';
+    document.getElementById('ratingError').style.display = 'none';
+    var statusEl = document.getElementById('feedbackStatus');
+    statusEl.textContent = '';
+    statusEl.className = 'feedback-status-message';
+}
+function handleFeedbackCancel() {
+    resetFeedbackForm();
+    closeModal(null, 'feedbackModal');
+}
+function handleSubmitFeedback() {
+    var rating = getSelectedRating();
+    var feedbackType = document.getElementById('feedbackType').value;
+    var comments = document.getElementById('feedbackComments').value.trim();
+    var statusEl = document.getElementById('feedbackStatus');
+    var ratingError = document.getElementById('ratingError');
+    statusEl.className = 'feedback-status-message';
+    statusEl.textContent = '';
+    ratingError.textContent = '';
+    ratingError.style.display = 'none';
 
-            statusEl.textContent = 'Sending...';
+    if (!rating) {
+        ratingError.textContent = 'Please select a star rating before submitting.';
+        ratingError.style.display = 'block';
+        return;
+    }
+    if (!feedbackType) {
+        statusEl.textContent = 'Please select a Feedback Type before submitting.';
+        statusEl.classList.add('feedback-status-error');
+        return;
+    }
+    if (!comments) {
+        statusEl.textContent = 'Please provide comments or suggestions before submitting.';
+        statusEl.classList.add('feedback-status-error');
+        return;
+    }
+    var formData = new FormData();
+    formData.append('entry.1696159737', rating);
+    formData.append('entry.1591633300', feedbackType);
+    formData.append('entry.326955045', comments);
 
-            fetch('https://docs.google.com/forms/d/e/1FAIpQLSffXyvIYSpV5Ku8MMlum5YLKSZLA1SJMmVQgc5Ho63-M3WRWg/formResponse', {
-                method: 'POST',
-                mode: 'no-cors',
-                body: new URLSearchParams(Array.from(formData))
-            }).then(() => {
-                statusEl.textContent = 'Thank you! Your feedback has been submitted.';
-                statusEl.classList.add('feedback-status-success');
-                resetFeedbackForm();
-            }).catch(() => {
-                statusEl.textContent = 'Submission failed. Please check your network connection and try again.';
-                statusEl.classList.add('feedback-status-error');
-            });
+    statusEl.textContent = 'Sending...';
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSffXyvIYSpV5Ku8MMlum5YLKSZLA1SJMmVQgc5Ho63-M3WRWg/formResponse', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams(Array.from(formData))
+    }).then(() => {
+        statusEl.textContent = 'Thank you! Your feedback has been submitted.';
+        statusEl.classList.add('feedback-status-success');
+        resetFeedbackForm();
+    }).catch(() => {
+        statusEl.textContent = 'Submission failed. Please check your network connection and try again.';
+        statusEl.classList.add('feedback-status-error');
+    });
+}
+// --------- Course Details & Write-Off Calculation (UG loan) ---------
+let savedCourseDetails = null;
+function getCurrentCourseDetails() {
+    return {
+        type: document.getElementById('cdType').value,
+        startMonth: document.getElementById('cdStartMonth').value,
+        startYear: document.getElementById('cdStartYear').value,
+        endMonth: document.getElementById('cdEndMonth').value,
+        endYear: document.getElementById('cdEndYear').value,
+        longerThan4Years: document.getElementById('cdLongerThan4Years').value
+    };
+}
+function setCourseDetailsFields(obj) {
+    document.getElementById('cdType').value = obj?.type ?? '';
+    document.getElementById('cdStartMonth').value = obj?.startMonth ?? '';
+    document.getElementById('cdStartYear').value = obj?.startYear ?? '';
+    document.getElementById('cdEndMonth').value = obj?.endMonth ?? '';
+    document.getElementById('cdEndYear').value = obj?.endYear ?? '';
+    document.getElementById('cdLongerThan4Years').value = obj?.longerThan4Years ?? '';
+}
+function toggleCourseDetailsCollapsible(forceState) {
+    const container = document.getElementById('courseDetailsCollapsible');
+    const inner = document.getElementById('courseDetailsInner');
+    const triggerText = document.getElementById('courseDetailsTriggerText');
+    let expanded = container.getAttribute('aria-expanded') === "true";
+    let willExpand = typeof forceState === "boolean" ? forceState : !expanded;
+    container.setAttribute('aria-expanded', willExpand);
+    if (willExpand) {
+        inner.classList.remove('hidden');
+        triggerText.textContent = "Hide course details";
+    } else {
+        inner.classList.add('hidden');
+        triggerText.textContent = "Enter course details for accurate write-off date";
+    }
+}
+function validateCourseDetails(cd) {
+    let partial = false;
+    let errors = [];
+    let warnings = [];
+    function isBlank(value) { return !value || (typeof value==="string" && value.trim()===""); }
+    if (!isBlank(cd.startYear) && !isBlank(cd.endYear)) {
+        let sYear = Number(cd.startYear), eYear = Number(cd.endYear);
+        let sMonth = isBlank(cd.startMonth) ? 1 : Number(cd.startMonth);
+        let eMonth = isBlank(cd.endMonth) ? 1 : Number(cd.endMonth);
+        if (eYear < sYear || (eYear == sYear && eMonth < sMonth)) {
+            errors.push("Course end date must be after or the same as start date.");
         }
+        let durationY = eYear - sYear;
+        let durationM = eMonth - sMonth;
+        let totalMonths = durationY*12 + durationM + 1;
+        if (cd.type === "part" && cd.longerThan4Years === "no" && totalMonths > 48) {
+            errors.push("Course duration suggests >4 years, but your answer says No. Please correct input.");
+        }
+        if (cd.type === "part" && isBlank(cd.longerThan4Years) && totalMonths > 48) {
+            warnings.push("Course duration suggests more than 4 years, please answer if your part-time course is longer than 4 years.");
+        }
+    } else {
+        partial = true;
+    }
+    return { errors, warnings, partial };
+}
+function handleSaveCourseDetails() {
+    const errorCont = document.getElementById('courseDetailsErrorContainer');
+    errorCont.innerHTML = "";
+    let cd = getCurrentCourseDetails();
+    let v = validateCourseDetails(cd);
+    if (v.errors.length) {
+        errorCont.innerHTML = `<div class="course-details-error">${v.errors.join("<br>")}</div>`;
+        return;
+    }
+    if (v.warnings.length) {
+        errorCont.innerHTML = `<div class="course-details-warning">${v.warnings.join("<br>")}</div>`;
+        return;
+    }
+    savedCourseDetails = {...cd};
+    errorCont.innerHTML = `<div class="course-details-confirmation">Course details saved!</div>`;
+    setTimeout(() => {
+        errorCont.innerHTML = "";
+        toggleCourseDetailsCollapsible(false);
+        updateCalculators();
+    }, 5000);
+    updateCalculators();
+}
+function handleClearCourseDetails() {
+    setCourseDetailsFields({});
+    document.getElementById('courseDetailsErrorContainer').innerHTML = "";
+    savedCourseDetails = null;
+    updateCalculators();
+}
+function getUGWriteoffYear(planType, cd) {
+    if (!cd || (!cd.startYear && !cd.endYear)) return { year: null, warning: "Write-off year may vary. Fill in course details for more accuracy." };
+    let p5StartYear = 2026;
+    let plan = LOAN_PLANS[planType];
+    if (!plan) return { year: null, warning: "Invalid loan plan." };
+    if (planType === "P5") {
+        if (cd.endYear) {
+            let useYear = Math.max(Number(cd.endYear), p5StartYear);
+            let repaymentStart = Math.max(useYear, p5StartYear);
+            let writeoffYear = repaymentStart + plan.writeOff;
+            return { year: writeoffYear, warning: null, partial: false };
+        } else {
+            return { year: p5StartYear + plan.writeOff, warning: "Write-off year may vary. Fill in course details for more accuracy.", partial: true };
+        }
+    }
+    if (cd.type === "full" || cd.type==="") {
+        if (cd.endYear)
+            return { year: Number(cd.endYear) + plan.writeOff, warning: null, partial: false };
+        else
+            return { year: null, warning: "Write-off year may vary. Fill in course details for more accuracy.", partial: true };
+    }
+    if (cd.type === "part") {
+        if (cd.longerThan4Years === "yes" && cd.startYear) {
+            let repaymentStartYear = Number(cd.startYear) + 4;
+            return { year: repaymentStartYear + plan.writeOff, warning: null, partial: false };
+        }
+        if (cd.longerThan4Years === "no" && cd.endYear) {
+            return { year: Number(cd.endYear) + plan.writeOff, warning: null, partial: false };
+        }
+        return { year: null, warning: "Write-off year may vary. Fill in course details for more accuracy.", partial: true };
+    }
+    return { year: null, warning: "Write-off year may vary. Fill in course details for more accuracy.", partial: true };
+}
+// --------- Compounding Interest Card Rendering ----------
+function updateCompoundingInterestCard() {
+    const ugBalance = parseInput(document.getElementById('currentBalance').value);
+    const ugInterestInput = document.getElementById('interestRate');
+    let ugPlanType = document.getElementById('ugPlanSelect').value || 'P1';
+    let ugInterest = parseInput(ugInterestInput.value);
+    let pgEnabled = document.getElementById('pgEnabledDropdown').value === "yes";
+    let pgBalance = pgEnabled ? parseInput(document.getElementById('pgBalance').value) : 0;
+    let pgInterest = pgEnabled ? parseInput(document.getElementById('pgInterest').value) : PG_PLAN.defaultRate;
+    const ugInts = getCompoundingInterestIntervals(ugBalance, ugInterest);
+    const pgInts = pgEnabled ? getCompoundingInterestIntervals(pgBalance, pgInterest) : null;
+    let bothZero = (ugBalance === 0) && (!pgEnabled || pgBalance === 0);
 
-        function openModal(modalId) {
-            let m = document.getElementById(modalId);
-            m.classList.remove('hidden');
-            m.setAttribute('aria-hidden','false');
-            if (modalId === 'feedbackModal') resetFeedbackForm();
+    let html = "";
+    if (bothZero) {
+        html += `<div class="mb-3 text-red-700 font-semibold" style="font-size:0.875em;">No interest will be added since both loan balances are zero.</div>`;
+    }
+    html += `<table class="comp-table"><thead><tr><th>Interval</th><th>UG Loan Interest</th><th>PG Loan Interest</th></tr></thead><tbody>`;
+    html += `<tr>
+        <td>Day (${ugInts.day.days} day)</td>
+        <td class="${ugBalance === 0 ? 'zero-td' : ''}">${formatCurrency(ugInts.day.amount)}</td>`;
+    if (pgEnabled)
+        html += `<td class="${pgBalance === 0 ? 'zero-td' : ''}">${formatCurrency(pgInts.day.amount)}</td>`;
+    else
+        html += `<td class="na-td">Not applicable</td>`;
+    html += `</tr>`;
+    html += `<tr>
+        <td>Week (${ugInts.week.days} days)</td>
+        <td class="${ugBalance === 0 ? 'zero-td' : ''}">${formatCurrency(ugInts.week.amount)}</td>`;
+    if (pgEnabled)
+        html += `<td class="${pgBalance === 0 ? 'zero-td' : ''}">${formatCurrency(pgInts.week.amount)}</td>`;
+    else
+        html += `<td class="na-td">Not applicable</td>`;
+    html += `</tr>`;
+    html += `<tr>
+        <td>Month (${ugInts.month.days} days)</td>
+        <td class="${ugBalance === 0 ? 'zero-td' : ''}">${formatCurrency(ugInts.month.amount)}</td>`;
+    if (pgEnabled)
+        html += `<td class="${pgBalance === 0 ? 'zero-td' : ''}">${formatCurrency(pgInts.month.amount)}</td>`;
+    else
+        html += `<td class="na-td">Not applicable</td>`;
+    html += `</tr>`;
+    html += `<tr>
+        <td>Year (${ugInts.year.days} days)</td>
+        <td class="${ugBalance === 0 ? 'zero-td' : ''}">${formatCurrency(ugInts.year.amount)}</td>`;
+    if (pgEnabled)
+        html += `<td class="${pgBalance === 0 ? 'zero-td' : ''}">${formatCurrency(pgInts.year.amount)}</td>`;
+    else
+        html += `<td class="na-td">Not applicable</td>`;
+    html += `</tr>`;
+    html += `</tbody></table>`;
+    document.getElementById('compInterestBody').innerHTML = html;
+}
+
+// --------- Master Calculation & UI Update ---------
+function updateCalculators() {
+    const origSalary = parseInput(document.getElementById('annualSalary').value);
+    const empPct = parseInput(document.getElementById('employeeValue').value)/100;
+    const erPct = parseInput(document.getElementById('employerValue').value)/100;
+    const isSS = document.getElementById('salarySacrificeToggle').checked;
+    const annualEmployeeContribution = origSalary * empPct;
+    const annualEmployerContribution = origSalary * erPct;
+    const annualTotalContribution = annualEmployeeContribution + annualEmployerContribution;
+    const sacrificeAmt = isSS ? annualEmployeeContribution : 0;
+    const adjustedSalary = origSalary - sacrificeAmt;
+
+    let ugPlanType = document.getElementById('ugPlanSelect').value || 'P1';
+    let ugBalance = parseInput(document.getElementById('currentBalance').value);
+    let ugInterestInput = document.getElementById('interestRate');
+    if (ugInterestInput.dataset.currentPlan !== ugPlanType) {
+        ugInterestInput.value = LOAN_PLANS[ugPlanType].defaultRate.toFixed(2);
+        ugInterestInput.dataset.currentPlan = ugPlanType;
+    }
+    let ugInterest = parseInput(ugInterestInput.value);
+    let ugWriteOff = LOAN_PLANS[ugPlanType].writeOff;
+
+    let pgEnabled = document.getElementById('pgEnabledDropdown').value === "yes";
+    let pgBalance = pgEnabled ? parseInput(document.getElementById('pgBalance').value) : 0;
+    let pgInterest = pgEnabled ? parseInput(document.getElementById('pgInterest').value) : PG_PLAN.defaultRate;
+    let pgWriteOff = PG_PLAN.writeOff;
+
+    let annualUGSLR = calculateStudentLoanRepayment(adjustedSalary, ugPlanType);
+    let annualPGSLR = pgEnabled ? calculatePGLoanRepayment(adjustedSalary) : 0;
+    let monthlyUGPayment = annualUGSLR/12;
+    let monthlyPGPayment = annualPGSLR/12;
+
+    let monthlyOverpayTotal = parseFloat(document.getElementById("monthlyOverpayment").value) || 0;
+    let monthlyOverUG = 0, monthlyOverPG = 0;
+    if (pgEnabled) {
+        monthlyOverUG = overUGAmt !== null ? +overUGAmt : monthlyOverpayTotal/2;
+        monthlyOverPG = overPGAmt !== null ? +overPGAmt : monthlyOverpayTotal/2;
+    } else {
+        monthlyOverUG = monthlyOverpayTotal;
+        monthlyOverPG = 0;
+    }
+    if (monthlyOverUG + monthlyOverPG > monthlyOverpayTotal) {
+        if (monthlyOverUG > monthlyOverpayTotal) {
+            monthlyOverUG = monthlyOverpayTotal;
+            monthlyOverPG = 0;
         }
-        function closeModal(event, modalId) {
-            const modal = document.getElementById(modalId);
-            if (event == null || event.target === modal) {
-                modal.classList.add('hidden');
-                modal.setAttribute('aria-hidden','true');
-                if (modalId === 'feedbackModal') resetFeedbackForm();
+        if (monthlyOverPG > monthlyOverpayTotal) {
+            monthlyOverPG = monthlyOverpayTotal;
+            monthlyOverUG = 0;
+        }
+    }
+    if (monthlyOverpayTotal == 0) {
+        overUGAmt = overPGAmt = 0;
+        overUGPct = overPGPct = 0.5;
+    }
+    let sliderRow = document.getElementById("overpaymentSliderRow");
+    if (pgEnabled) sliderRow.style.display=""; else sliderRow.style.display="none";
+
+    const monthlyTotalLoanPayment = monthlyUGPayment + monthlyPGPayment;
+
+    let payoffMandatoryUG = projectLoanPayoffSingle(ugBalance, monthlyUGPayment, 0, ugInterest, ugWriteOff);
+    let payoffMandatoryPG = pgEnabled ? projectLoanPayoffSingle(pgBalance, monthlyPGPayment, 0, pgInterest, pgWriteOff) : null;
+    let totalInterestMandatory = (payoffMandatoryUG.totalInterest || 0) + (payoffMandatoryPG?.totalInterest || 0);
+
+    let payoffCombinedUG, payoffCombinedPG;
+    payoffCombinedUG = projectLoanPayoffSingle(ugBalance, monthlyUGPayment, monthlyOverUG, ugInterest, ugWriteOff);
+    let redirectedUGOverpayment = monthlyOverUG + monthlyOverPG;
+    let ugFinishMonth = payoffCombinedUG.finishMonth;
+    if (pgEnabled) {
+        payoffCombinedPG = projectLoanPayoffSingle(pgBalance, monthlyPGPayment, monthlyOverPG, pgInterest, pgWriteOff);
+        let pgFinishMonth = payoffCombinedPG.finishMonth;
+        if (monthlyOverpayTotal > 0) {
+            let pg_balance = pgBalance, paid_interest_pg = 0, months_pg = 0;
+            let mandatory_pg = monthlyPGPayment, voluntary_pg = monthlyOverPG;
+            let rate_pg = (pgInterest/100)/12;
+            while (pg_balance > 0.01 && months_pg < pgWriteOff*12) {
+                let interest = pg_balance * rate_pg;
+                paid_interest_pg += interest;
+                let current_overpay = (months_pg >= ugFinishMonth) ? redirectedUGOverpayment : voluntary_pg;
+                let payment = Math.min(mandatory_pg + current_overpay, pg_balance + interest);
+                pg_balance += interest - payment;
+                months_pg++;
             }
+            let final_payoff_pg = pg_balance <= 0
+                ? { years: (months_pg/12).toFixed(2), finishMonth: months_pg, totalInterest: paid_interest_pg }
+                : { years: `${pgWriteOff} (Written Off in ${new Date().getFullYear()+pgWriteOff})`, finishMonth: pgWriteOff*12, totalInterest: paid_interest_pg };
+            payoffCombinedPG = final_payoff_pg;
         }
+    }
+    let totalInterestCombined = (payoffCombinedUG.totalInterest || 0) + (payoffCombinedPG?.totalInterest || 0);
+
+    let courseDetailsForUG = savedCourseDetails;
+    let writeoffObj = getUGWriteoffYear(ugPlanType, courseDetailsForUG);
+    let writeOffYearValid = !!writeoffObj.year;
+    let writeoffWarning = writeoffObj.warning;
+
+    document.getElementById("monthlyUGPayment").textContent = formatCurrency(monthlyUGPayment);
+    document.getElementById("monthlyPGPayment").textContent = formatCurrency(monthlyPGPayment);
+    document.getElementById("monthlyTotalPayment").textContent = formatCurrency(monthlyUGPayment + monthlyPGPayment);
+
+    function formatPayoffYears(payoff) {
+    if (!payoff) return "";
+    // If "Paid off" or "N/A", just show as is
+    if (
+        payoff.toLowerCase().includes("paid off") ||
+        payoff.toLowerCase().includes("n/a")
+    ) return payoff;
+    // If starts with a number, add "years" after it
+    const match = payoff.match(/^(\d+(\.\d+)?)(.*)$/);
+    if (match) {
+        return match[1] + " years" + match[3];
+    }
+    return payoff;
+}
+
+document.getElementById("payoffYearsMandatoryUG").textContent = formatPayoffYears(payoffMandatoryUG.years);
+document.getElementById("payoffYearsCombinedUG").textContent = formatPayoffYears(payoffCombinedUG.years);
+let payoffPGMandatoryYears = pgEnabled ? formatPayoffYears(payoffMandatoryPG.years) : "N/A";
+let payoffPGCombinedYears = pgEnabled ? formatPayoffYears(payoffCombinedPG.years) : "N/A";
+document.getElementById("payoffYearsMandatoryPG").textContent = payoffPGMandatoryYears;
+document.getElementById("payoffYearsCombinedPG").textContent = payoffPGCombinedYears;
+
+    document.getElementById("totalInterestMandatory").textContent = formatCurrency(totalInterestMandatory);
+    document.getElementById("totalInterestCombined").textContent = formatCurrency(totalInterestCombined);
+
+    let warningDiv = document.getElementById("ugWriteOffWarning");
+    if (writeoffWarning) {
+        warningDiv.textContent = writeoffWarning;
+        warningDiv.style.display = "";
+    } else {
+        warningDiv.style.display = "none";
+    }
+
+    const annualTax = calculateIncomeTax(adjustedSalary);
+    const annualNI = calculateNationalInsurance(adjustedSalary);
+    const niSaving = isSS ? calculateNationalInsurance(origSalary) - annualNI : 0;
+    const totalAnnualDeductions = annualTax + annualNI + annualUGSLR + annualPGSLR + annualEmployeeContribution;
+    const annualNetPay = origSalary - totalAnnualDeductions + niSaving;
+    const monthlyNetPay = annualNetPay/12;
+    const monthlyTotalContribution = annualTotalContribution/12;
+    const monthlyEmployeeCost = isSS 
+        ? (annualEmployeeContribution - niSaving)/12
+        : annualEmployeeContribution/12;
+    const adjustedGrossRow = document.getElementById('adjustedGrossRow');
+    if (isSS && sacrificeAmt > 0) {
+        adjustedGrossRow.style.display = "";
+        document.getElementById('adjustedGrossSalary').textContent = formatCurrency(adjustedSalary);
+    } else {
+        adjustedGrossRow.style.display = "none";
+    }
+    document.getElementById('monthlyNetPay').textContent = formatCurrency(monthlyNetPay);
+    document.getElementById('annualNetPay').textContent = formatCurrency(annualNetPay);
+    document.getElementById('annualDeductions').textContent = formatCurrency(totalAnnualDeductions);
+
+    document.getElementById('monthlyTotalContribution').textContent = formatCurrency(monthlyTotalContribution);
+    document.getElementById('monthlyEmployeeCost').textContent = formatCurrency(monthlyEmployeeCost);
+    document.getElementById('monthlyEmployerContribution').textContent = formatCurrency(annualEmployerContribution/12);
+    document.getElementById('annualNISaving').textContent = formatCurrency(niSaving);
+
+    const adjustedSalaryContainer = document.getElementById('adjustedSalaryContainer');
+    if (isSS && sacrificeAmt > 0) {
+        adjustedSalaryContainer.classList.remove('hidden');
+        document.getElementById('adjustedTaxableSalary').textContent = formatCurrency(adjustedSalary);
+    } else {
+        adjustedSalaryContainer.classList.add('hidden');
+    }
+
+    updateCompoundingInterestCard();
+}
     </script>
 </body>
 </html>
+    
